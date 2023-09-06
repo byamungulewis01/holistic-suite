@@ -92,10 +92,10 @@
                         </span>
                         <span class="hide-menu">Member Step</span>
                     </a>
-                    <ul aria-expanded="false" class="collapse first-level {{ in_array(Route::currentRouteName(), ['member.memberStep.childrenPraysList','member.memberStep.funeralList']) ? 'in' : '' }}">
+                    <ul aria-expanded="false" class="collapse first-level {{ in_array(Route::currentRouteName(), ['member.memberStep.childrenPraysList','member.memberStep.funeralList','member.memberStep.weddingProjectList','member.memberStep.holyCommunionList']) ? 'in' : '' }}">
                         <!-- form elements -->
-                        <li class="sidebar-item ">
-                            <a href="./form-inputs.html" class="sidebar-link">
+                        <li class="sidebar-item {{ Request::routeIs('member.memberStep.weddingProjectList') ? 'active' : '' }}">
+                            <a href="{{ route('member.memberStep.weddingProjectList') }}" class="sidebar-link {{ Request::routeIs('member.memberStep.weddingProjectList') ? 'active' : '' }}">
                                 <i class="ti ti-circle"></i>
                                 <span class="hide-menu">Umushinga w'Ubukwe</span>
                             </a>
@@ -112,14 +112,14 @@
                                 <span class="hide-menu">Gushyingura</span>
                             </a>
                         </li>
-                        <li class="sidebar-item">
-                            <a href="./form-checkbox-radio.html" class="sidebar-link">
+                        <li class="sidebar-item {{ Request::routeIs('member.memberStep.holyCommunionList') ? 'active' : '' }}">
+                            <a href="{{ route('member.memberStep.holyCommunionList') }}" class="sidebar-link">
                                 <i class="ti ti-circle"></i>
                                 <span class="hide-menu">Igaburo Ryera</span>
                             </a>
                         </li>
-                        <li class="sidebar-item">
-                            <a href="./form-bootstrap-switch.html" class="sidebar-link">
+                        <li class="sidebar-item {{ Request::routeIs('member.memberStep.prayerRequestList') ? 'active' : '' }}">
+                            <a href="{{ route('member.memberStep.prayerRequestList') }}" class="sidebar-link">
                                 <i class="ti ti-circle"></i>
                                 <span class="hide-menu">Icyifuzo cyo Gusengera</span>
                             </a>
@@ -134,40 +134,41 @@
                         </span>
                         <span class="hide-menu">Other Service</span>
                     </a>
-                    <ul aria-expanded="false" class="collapse first-level">
+                    <ul aria-expanded="false" class="collapse first-level {{ in_array(Route::currentRouteName(),
+                    ['member.request.suggestionList','member.request.praiseRequestList','member.request.choirMoveList','member.request.leaderMeetRequestList']) ? 'in' : '' }}">
                         <!-- form elements -->
-                        <li class="sidebar-item">
-                            <a href="./form-inputs.html" class="sidebar-link">
+                        <li class="sidebar-item {{ Request::routeIs('member.request.suggestionList') ? 'active' : '' }}">
+                            <a href="{{ route('member.request.suggestionList','member.request.preachRequestList','member.request.socialMediaPreachList') }}" class="sidebar-link">
                                 <i class="ti ti-circle"></i>
                                 <span class="hide-menu">Suggestions</span>
                             </a>
                         </li>
-                        <li class="sidebar-item">
-                            <a href="./form-input-groups.html" class="sidebar-link">
+                        <li class="sidebar-item {{ Request::routeIs('member.request.praiseRequestList') ? 'active' : '' }}">
+                            <a href="{{ route('member.request.praiseRequestList') }}" class="sidebar-link">
                                 <i class="ti ti-circle"></i>
                                 <span class="hide-menu">Gushima Imana</span>
                             </a>
                         </li>
-                        <li class="sidebar-item">
-                            <a href="./form-input-grid.html" class="sidebar-link">
+                        <li class="sidebar-item {{ Request::routeIs('member.request.preachRequestList') ? 'active' : '' }}">
+                            <a href="{{ route('member.request.preachRequestList') }}" class="sidebar-link">
                                 <i class="ti ti-circle"></i>
                                 <span class="hide-menu">Preach Permit</span>
                             </a>
                         </li>
-                        <li class="sidebar-item">
-                            <a href="./form-checkbox-radio.html" class="sidebar-link">
+                        <li class="sidebar-item {{ Request::routeIs('member.request.socialMediaPreachList') ? 'active' : '' }}">
+                            <a href="{{ route('member.request.socialMediaPreachList') }}" class="sidebar-link">
                                 <i class="ti ti-circle"></i>
                                 <span class="hide-menu">Social Media Preach</span>
                             </a>
                         </li>
-                        <li class="sidebar-item">
-                            <a href="./form-bootstrap-switch.html" class="sidebar-link">
+                        <li class="sidebar-item {{ Request::routeIs('member.request.choirMoveList') ? 'active' : '' }}">
+                            <a href="{{ route('member.request.choirMoveList') }}" class="sidebar-link">
                                 <i class="ti ti-circle"></i>
                                 <span class="hide-menu">Choir Preach</span>
                             </a>
                         </li>
-                        <li class="sidebar-item">
-                            <a href="./form-bootstrap-switch.html" class="sidebar-link">
+                        <li class="sidebar-item {{ Request::routeIs('member.request.leaderMeetRequestList') ? 'active' : '' }}">
+                            <a href="{{ route('member.request.leaderMeetRequestList') }}" class="sidebar-link">
                                 <i class="ti ti-circle"></i>
                                 <span class="hide-menu">Meet Leaders</span>
                             </a>

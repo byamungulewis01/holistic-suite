@@ -2,8 +2,9 @@
 
 namespace App\Models\Recommand;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Member;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Suggestion extends Model
 {
@@ -18,5 +19,9 @@ class Suggestion extends Model
         'repliedBy',
         'reply',
     ];
+    public function member()
+    {
+        return $this->belongsTo(Member::class);
+    }
 
 }

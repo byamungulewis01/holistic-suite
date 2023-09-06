@@ -2,8 +2,9 @@
 
 namespace App\Models\Recommand;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Member;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class LeaderMeetRequest extends Model
 {
@@ -22,4 +23,8 @@ class LeaderMeetRequest extends Model
         'service_type_id',
         'comment'
     ];
+    public function member()
+    {
+        return $this->belongsTo(Member::class);
+    }
 }

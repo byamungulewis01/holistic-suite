@@ -2,8 +2,10 @@
 
 namespace App\Models\Services;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Member;
+use App\Models\Office;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class WeddingProject extends Model
 {
@@ -18,6 +20,27 @@ class WeddingProject extends Model
         'girl_religion_certificate', 'girl_national_id', 'girl_aids_certificate',
         'girl_ceribate_certificate', 'region_id', 'parish_id', 'local_church_id',
         'proposedDate', 'applyBy', 'church', 'aproovedDate', 'aproovedBy',
-        'rejectedDate', 'rejectedBy', 'comment','status'
+        'rejectedDate', 'rejectedBy', 'comment', 'status',
     ];
+    public function boy_member()
+    {
+        return $this->belongsTo(Member::class, 'boy_member_id');
+    }
+    public function girl_member()
+    {
+        return $this->belongsTo(Member::class, 'girl_member_id');
+    }
+    public function region()
+    {
+        return $this->belongsTo(Office::class);
+    }
+    public function parish()
+    {
+        return $this->belongsTo(Office::class);
+    }
+    public function localChurch()
+    {
+        return $this->belongsTo(Office::class);
+    }
+
 }

@@ -2,8 +2,9 @@
 
 namespace App\Models\Recommand;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Member;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class SocialMediaPreach extends Model
 {
@@ -22,4 +23,8 @@ class SocialMediaPreach extends Model
         'rejectedBy',
         'comment',
     ];
+    public function member()
+    {
+        return $this->belongsTo(Member::class);
+    }
 }

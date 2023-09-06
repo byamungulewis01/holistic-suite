@@ -2,8 +2,10 @@
 
 namespace App\Models\Recommand;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Member;
+use App\Models\Office;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class PreachRequest extends Model
 {
@@ -26,4 +28,21 @@ class PreachRequest extends Model
         'rejectedBy',
         'comment'
     ];
+    public function member()
+    {
+        return $this->belongsTo(Member::class);
+    }
+    public function region()
+    {
+        return $this->belongsTo(Office::class);
+    }
+    public function parish()
+    {
+        return $this->belongsTo(Office::class);
+    }
+    public function localChurch()
+    {
+        return $this->belongsTo(Office::class);
+    }
+
 }

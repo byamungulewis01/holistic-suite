@@ -1,6 +1,6 @@
 @extends('layouts.frontend.app')
 
-@section('title','Suggestions Box')
+@section('title','Gushima Imana')
 @section('css')
 <link rel="stylesheet" href="{{ asset('dist/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}">
 @endsection

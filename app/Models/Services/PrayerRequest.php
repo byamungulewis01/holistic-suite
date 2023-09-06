@@ -2,8 +2,10 @@
 
 namespace App\Models\Services;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Member;
+use App\Models\Predefined;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class PrayerRequest extends Model
 {
@@ -21,5 +23,13 @@ class PrayerRequest extends Model
         'rejectedDate',
         'rejectedBy',
     ];
+    public function member()
+    {
+        return $this->belongsTo(Member::class);
+    }
+    public function service_type()
+    {
+        return $this->belongsTo(Predefined::class);
+    }
 }
 

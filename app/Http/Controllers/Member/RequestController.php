@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Member;
 
+use App\Http\Controllers\Controller;
 use App\Models\Member;
 use App\Models\Office;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Models\Recommand\ChoirMoveRequest;
 use App\Models\Recommand\LeaderMeetRequest;
 use App\Models\Recommand\PraiseRequest;
 use App\Models\Recommand\PreachRequest;
 use App\Models\Recommand\SocialMediaPreach;
 use App\Models\Recommand\Suggestion;
+use Illuminate\Http\Request;
 
 class RequestController extends Controller
 {
@@ -22,8 +22,8 @@ class RequestController extends Controller
     }
     public function suggestionList()
     {
-        $collections = [];
-        return view('frontend.requests.suggestionList',compact('collections'));
+        $collections = Suggestion::where('applyBy', auth()->guard('member')->user()->id)->orderBy('created_at', 'desc')->get();
+        return view('frontend.requests.suggestionList', compact('collections'));
     }
     // storeSuggestion
     public function storeSuggestion(Request $request)
@@ -34,7 +34,7 @@ class RequestController extends Controller
         ]);
         if ($request->requestedBy == 2) {
             $request->validate(['reg_number' => 'required|min:9|numeric|exists:members,reg_no']);
-         }
+        }
         $member = ($request->requestedBy == 1) ? auth()->guard('member')->user()->member_id : Member::where('reg_no', $request->reg_number)->first()->id;
         $church = ($request->requestedBy == 1) ? auth()->guard('member')->user()->member->local_church_id : Member::where('reg_no', $request->reg_number)->first()->local_church_id;
         $request->merge([
@@ -44,12 +44,26 @@ class RequestController extends Controller
         ]);
 
         Suggestion::create($request->all());
-        return to_route('member.home')->with('success', 'Suggestion successfully Sent');
+        return to_route('member.request.suggestionList')->with('success', 'Suggestion successfully Sent');
     }
+    // destroySuggestion
+    public function destroySuggestion($id)
+    {
+        Suggestion::where('id', $id)->first()->delete();
+        return back()->with('success', 'Deleted successfully');
+    }
+
     // praiseRequest
     public function praiseRequest()
     {
         return view('frontend.requests.praiseRequest');
+    }
+
+    // Praise Request
+    public function praiseRequestList()
+    {
+        $collections = PraiseRequest::where('applyBy', auth()->guard('member')->user()->id)->orderBy('created_at', 'desc')->get();
+        return view('frontend.requests.praiseRequestList', compact('collections'));
     }
     // storePraiseRequest
     public function storePraiseRequest(Request $request)
@@ -60,7 +74,7 @@ class RequestController extends Controller
         ]);
         if ($request->requestedBy == 2) {
             $request->validate(['reg_number' => 'required|min:9|numeric|exists:members,reg_no']);
-         }
+        }
         $member = ($request->requestedBy == 1) ? auth()->guard('member')->user()->member_id : Member::where('reg_no', $request->reg_number)->first()->id;
         $church = ($request->requestedBy == 1) ? auth()->guard('member')->user()->member->local_church_id : Member::where('reg_no', $request->reg_number)->first()->local_church_id;
         $request->merge([
@@ -71,15 +85,26 @@ class RequestController extends Controller
         ]);
 
         PraiseRequest::create($request->all());
-        return to_route('member.home')->with('success', 'Praise Requested successfully');
+        return to_route('member.request.praiseRequestList')->with('success', 'Praise Requested successfully');
+    }
+    public function destroyPraiseRequest($id)
+    {
+        PraiseRequest::where('id', $id)->first()->delete();
+        return back()->with('success', 'Deleted successfully');
     }
 
     public function preachRequest()
     {
         $regions = Office::where('type', 'region')->get();
-        return view('frontend.requests.preachRequest',compact('regions'));
+        return view('frontend.requests.preachRequest', compact('regions'));
     }
-    // storePreachRequest
+    public function preachRequestList()
+    {
+        $collections = PreachRequest::where('applyBy', auth()->guard('member')->user()->id)->orderBy('created_at', 'desc')->get();
+        return view('frontend.requests.preachRequestList', compact('collections'));
+    }
+
+    // storePreachRequestm
     public function storePreachRequest(Request $request)
     {
         $request->validate([
@@ -92,15 +117,15 @@ class RequestController extends Controller
                 'parish' => 'required',
                 'local_church' => 'required',
             ]);
-        } elseif($request->places == 2){
+        } elseif ($request->places == 2) {
             $request->validate(['elseWhere' => 'required']);
-        }else{
+        } else {
             $request->validate(['abroad' => 'required']);
         }
 
         if ($request->requestedBy == 2) {
             $request->validate(['reg_number' => 'required|min:9|numeric|exists:members,reg_no']);
-         }
+        }
         $member = ($request->requestedBy == 1) ? auth()->guard('member')->user()->member_id : Member::where('reg_no', $request->reg_number)->first()->id;
         $church = ($request->requestedBy == 1) ? auth()->guard('member')->user()->member->local_church_id : Member::where('reg_no', $request->reg_number)->first()->local_church_id;
         $request->merge([
@@ -113,15 +138,27 @@ class RequestController extends Controller
         ]);
 
         PreachRequest::create($request->all());
-        return to_route('member.home')->with('success', 'Preach Requested successfully');
+        return to_route('member.request.preachRequestList')->with('success', 'Preach Requested successfully');
     }
-
+    // destroyPreachRequest
+    public function destroyPreachRequest($id)
+    {
+        PreachRequest::where('id', $id)->first()->delete();
+        return back()->with('success', 'Deleted successfully');
+    }
 
     // socialMediaPreach
     public function socialMediaPreach()
     {
         return view('frontend.requests.socialMediaPreach');
     }
+
+    public function socialMediaPreachList()
+    {
+        $collections = SocialMediaPreach::where('applyBy', auth()->guard('member')->user()->id)->orderBy('created_at', 'desc')->get();
+        return view('frontend.requests.socialMediaPreachList', compact('collections'));
+    }
+
     // storeSocialMediaPreach
     public function storeSocialMediaPreach(Request $request)
     {
@@ -132,30 +169,41 @@ class RequestController extends Controller
 
         if ($request->requestedBy == 2) {
             $request->validate(['reg_number' => 'required|min:9|numeric|exists:members,reg_no']);
-         }
-         $member = ($request->requestedBy == 1) ? auth()->guard('member')->user()->member_id : Member::where('reg_no', $request->reg_number)->first()->id;
-         $church = ($request->requestedBy == 1) ? auth()->guard('member')->user()->member->local_church_id : Member::where('reg_no', $request->reg_number)->first()->local_church_id;
+        }
+        $member = ($request->requestedBy == 1) ? auth()->guard('member')->user()->member_id : Member::where('reg_no', $request->reg_number)->first()->id;
+        $church = ($request->requestedBy == 1) ? auth()->guard('member')->user()->member->local_church_id : Member::where('reg_no', $request->reg_number)->first()->local_church_id;
 
-         $socialMedias = [];
-         foreach ($request->socialMedia as $item) {
-             $socialMedias[] = $item;
-            }
-            $socialMedia = implode(',', $socialMedias);
-            $request->merge([
-                'socialMedia' => $socialMedia,
-                'applyBy' => auth()->guard('member')->user()->id,
+        $socialMedias = [];
+        foreach ($request->socialMedia as $item) {
+            $socialMedias[] = $item;
+        }
+        $socialMedia = implode(',', $socialMedias);
+        $request->merge([
+            'socialMedia' => $socialMedia,
+            'applyBy' => auth()->guard('member')->user()->id,
             'church' => $church,
             'member_id' => $member,
         ]);
 
         SocialMediaPreach::create($request->all());
-        return to_route('member.home')->with('success', 'Preach Requested successfully');
+        return to_route('member.request.socialMediaPreachList')->with('success', 'Preach Requested successfully');
+    }
+    // destroySocialMediaPreach
+    public function destroySocialMediaPreach($id)
+    {
+        SocialMediaPreach::where('id', $id)->first()->delete();
+        return back()->with('success', 'Deleted successfully');
     }
 
     public function choirMove()
     {
         $regions = Office::where('type', 'region')->get();
-        return view('frontend.requests.choirMove',compact('regions'));
+        return view('frontend.requests.choirMove', compact('regions'));
+    }
+    public function choirMoveList()
+    {
+        $collections = ChoirMoveRequest::where('applyBy', auth()->guard('member')->user()->id)->orderBy('created_at', 'desc')->get();
+        return view('frontend.requests.choirMoveList', compact('collections'));
     }
     // storeChoirMove
     public function storeChoirMove(Request $request)
@@ -171,15 +219,15 @@ class RequestController extends Controller
                 'parish' => 'required',
                 'local_church' => 'required',
             ]);
-        } elseif($request->places == 2){
+        } elseif ($request->places == 2) {
             $request->validate(['elseWhere' => 'required']);
-        }else{
+        } else {
             $request->validate(['abroad' => 'required']);
         }
 
         if ($request->requestedBy == 2) {
             $request->validate(['reg_number' => 'required|min:9|numeric|exists:members,reg_no']);
-         }
+        }
 
         $request->merge([
             'region_id' => @Office::where('reg_number', $request->region)->first()->id,
@@ -191,11 +239,22 @@ class RequestController extends Controller
         ]);
 
         ChoirMoveRequest::create($request->all());
-        return to_route('member.home')->with('success', 'Preach Requested successfully');
+        return to_route('member.request.choirMoveList')->with('success', 'Preach Requested successfully');
+    }
+    // destroyChoirMove
+    public function destroyChoirMove($id)
+    {
+        ChoirMoveRequest::where('id', $id)->first()->delete();
+        return back()->with('success', 'Deleted successfully');
     }
     public function leaderMeetRequest()
     {
         return view('frontend.requests.leaderMeetRequest');
+    }
+    public function leaderMeetRequestList()
+    {
+        $collections = LeaderMeetRequest::where('applyBy', auth()->guard('member')->user()->id)->orderBy('created_at', 'desc')->get();
+        return view('frontend.requests.leaderMeetRequestList', compact('collections'));
     }
     // storeLeaderMeetRequest
     public function storeLeaderMeetRequest(Request $request)
@@ -206,7 +265,7 @@ class RequestController extends Controller
         ]);
         if ($request->requestedBy == 2) {
             $request->validate(['reg_number' => 'required|min:9|numeric|exists:members,reg_no']);
-         }
+        }
         $member = ($request->requestedBy == 1) ? auth()->guard('member')->user()->member_id : Member::where('reg_no', $request->reg_number)->first()->id;
         $church = ($request->requestedBy == 1) ? auth()->guard('member')->user()->member->local_church_id : Member::where('reg_no', $request->reg_number)->first()->local_church_id;
         $request->merge([
@@ -216,7 +275,13 @@ class RequestController extends Controller
         ]);
 
         LeaderMeetRequest::create($request->all());
-        return to_route('member.home')->with('success', 'Application successfully Sent');
+        return to_route('member.request.leaderMeetRequestList')->with('success', 'Application successfully Sent');
+    }
+    // destroyLeaderMeetRequest
+    public function destroyLeaderMeetRequest($id)
+    {
+        LeaderMeetRequest::where('id', $id)->first()->delete();
+        return back()->with('success', 'Deleted successfully');
     }
 
 }

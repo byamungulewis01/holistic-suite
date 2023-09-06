@@ -96,6 +96,11 @@ class MemberStepController extends Controller
     {
         return view('frontend.services.holyCommunion');
     }
+    public function holyCommunionList()
+    {
+        $collections = HolyCommunion::where('applyBy', auth()->guard('member')->user()->id)->orderBy('created_at', 'desc')->get();
+        return view('frontend.services.holyCommunionList', compact('collections'));
+    }
     // storeHolyCommunion
     public function storeHolyCommunion(Request $request)
     {
@@ -115,12 +120,23 @@ class MemberStepController extends Controller
                 'local_church_id' => auth()->guard('member')->user()->member->local_church_id,
             ]);
         }
-        return to_route('member.home')->with('success', 'Your request has been sent successfully');
+        return to_route('member.memberStep.holyCommunionList')->with('success', 'Your request has been sent successfully');
+    }
+    // destroyHolyCommunion
+    public function destroyHolyCommunion($id)
+    {
+        HolyCommunion::where('id', $id)->first()->delete();
+        return back()->with('success', 'Deleted successfully');
     }
     // prayerRequest
     public function prayerRequest()
     {
         return view('frontend.services.prayerRequest');
+    }
+    public function prayerRequestList()
+    {
+        $collections = PrayerRequest::where('applyBy', auth()->guard('member')->user()->id)->orderBy('created_at', 'desc')->get();
+        return view('frontend.services.prayerRequestList', compact('collections'));
     }
     // storePrayerRequest
     public function storePrayerRequest(Request $request)
@@ -144,7 +160,12 @@ class MemberStepController extends Controller
         PrayerRequest::create($request->all());
         return to_route('member.home')->with('success', 'Your request has been sent successfully');
     }
-
+//  destroyPrayerRequest
+    public function destroyPrayerRequest($id)
+    {
+        PrayerRequest::where('id', $id)->first()->delete();
+        return back()->with('success', 'Deleted successfully');
+    }
     // weddingProject
     public function weddingProject()
     {
@@ -153,25 +174,62 @@ class MemberStepController extends Controller
     }
     public function weddingProjectList()
     {
+        $collections = WeddingProject::where('applyBy', auth()->guard('member')->user()->id)->orderBy('created_at', 'desc')->get();
         $regions = Office::where('type', 'region')->get();
-        return view('frontend.services.weddingProject', compact('regions'));
+        return view('frontend.services.weddingProjectList', compact('regions', 'collections'));
     }
     // storeWeddingProject
     public function storeWeddingProject(Request $request)
     {
         $request->validate([
-            'boy_national_id' => 'required',
-            'boy_aids_certificate' => 'required',
-            'boy_ceribate_certificate' => 'required',
-            'girl_national_id' => 'required',
-            'girl_aids_certificate' => 'required',
-            'girl_ceribate_certificate' => 'required',
+            'boy_certificate1' => 'required',
+            'boy_certificate2' => 'required',
+            'boy_certificate3' => 'required',
+            'girl_certificate1' => 'required',
+            'girl_certificate2' => 'required',
+            'girl_certificate3' => 'required',
             'region' => 'required',
             'parish' => 'required',
             'local_church' => 'required',
             'proposedDate' => 'required',
         ]);
+        if ($request->hasFile('boy_certificate1')) {
+            $certificate1 = $request->file('boy_certificate1');
+            $boy_nid = time() . '.' . $certificate1->getClientOriginalExtension();
+            $certificate1->move(public_path('documents/national_ids'), $boy_nid);
+        }
+        if ($request->hasFile('boy_certificate2')) {
+            $certificate2 = $request->file('boy_certificate2');
+            $boy_aids = time() . '.' . $certificate2->getClientOriginalExtension();
+            $certificate2->move(public_path('documents/aids_certificate'), $boy_aids);
+        }
+        if ($request->hasFile('boy_certificate3')) {
+            $certificate3 = $request->file('boy_certificate3');
+            $boy_ceribate = time() . '.' . $certificate3->getClientOriginalExtension();
+            $certificate3->move(public_path('documents/ceribate_certificate'), $boy_ceribate);
+        }
+        if ($request->hasFile('girl_certificate1')) {
+            $certificate4 = $request->file('girl_certificate1');
+            $girl_nid = time() . '.' . $certificate4->getClientOriginalExtension();
+            $certificate4->move(public_path('documents/national_ids'), $girl_nid);
+        }
+        if ($request->hasFile('girl_certificate2')) {
+            $certificate5 = $request->file('girl_certificate2');
+            $girl_aids = time() . '.' . $certificate5->getClientOriginalExtension();
+            $certificate5->move(public_path('documents/aids_certificate'), $girl_aids);
+        }
+        if ($request->hasFile('girl_certificate3')) {
+            $certificate6 = $request->file('girl_certificate3');
+            $girl_ceribate = time() . '.' . $certificate6->getClientOriginalExtension();
+            $certificate6->move(public_path('documents/ceribate_certificate'), $girl_ceribate);
+        }
         $request->merge([
+            'boy_national_id' => $boy_nid,
+            'boy_aids_certificate' => $boy_aids,
+            'boy_ceribate_certificate' => $boy_ceribate,
+            'girl_national_id' => $girl_nid,
+            'girl_aids_certificate' => $girl_aids,
+            'girl_ceribate_certificate' => $girl_ceribate,
             'region_id' => Office::where('reg_number', $request->region)->first()->id,
             'parish_id' => Office::where('reg_number', $request->parish)->first()->id,
             'local_church_id' => Office::where('reg_number', $request->local_church)->first()->id,
@@ -190,8 +248,8 @@ class MemberStepController extends Controller
 
             $request->merge([
                 'churchMember' => 'both',
-                'boy_member_id' => Member::where('reg_no',$request->boyReg_no)->first()->id,
-                'girl_member_id' => Member::where('reg_no',$request->girlReg_no)->first()->id,
+                'boy_member_id' => Member::where('reg_no', $request->boyReg_no)->first()->id,
+                'girl_member_id' => Member::where('reg_no', $request->girlReg_no)->first()->id,
             ]);
 
         } else {
@@ -206,16 +264,16 @@ class MemberStepController extends Controller
                 'religion' => 'required',
                 'certificate' => 'required',
             ]);
+
             if ($request->hasFile('certificate')) {
                 $certificate = $request->file('certificate');
                 $certName = time() . '.' . $certificate->getClientOriginalExtension();
                 $certificate->move(public_path('documents/certificates'), $certName);
             }
-            if($request->whoIsMember == 'umuhungu'){
-
+            if ($request->whoIsMember == 'umusore') {
                 $request->merge([
                     'churchMember' => 'boy',
-                    'boy_member_id' => Member::where('reg_no',$request->reg_number)->first()->id,
+                    'boy_member_id' => Member::where('reg_no', $request->reg_number)->first()->id,
                     'boy_father_name' => $request->father_name,
                     'boy_mother_name' => $request->mother_name,
                     'girl_name' => $request->name,
@@ -225,10 +283,10 @@ class MemberStepController extends Controller
                     'girl_religion' => $request->religion,
                     'girl_religion_certificate' => $certName,
                 ]);
-            }else {
+            } else {
                 $request->merge([
                     'churchMember' => 'girl',
-                    'girl_member_id' => Member::where('reg_no',$request->reg_number)->first()->id,
+                    'girl_member_id' => Member::where('reg_no', $request->reg_number)->first()->id,
                     'girl_father_name' => $request->father_name,
                     'girl_mother_name' => $request->mother_name,
                     'boy_name' => $request->name,
@@ -240,46 +298,14 @@ class MemberStepController extends Controller
                 ]);
             }
         }
-        if ($request->hasFile('boy_national_id')) {
-            $certificate = $request->file('boy_national_id');
-            $boy_nid = time() . '.' . $certificate->getClientOriginalExtension();
-            $certificate->move(public_path('documents/national_ids'), $boy_nid);
-        }
-        if ($request->hasFile('boy_aids_certificate')) {
-            $certificate = $request->file('boy_aids_certificate');
-            $boy_aids = time() . '.' . $certificate->getClientOriginalExtension();
-            $certificate->move(public_path('documents/aids_certificate'), $boy_aids);
-        }
-        if ($request->hasFile('boy_ceribate_certificate')) {
-            $certificate = $request->file('boy_ceribate_certificate');
-            $boy_ceribate = time() . '.' . $certificate->getClientOriginalExtension();
-            $certificate->move(public_path('documents/ceribate_certificate'), $boy_ceribate);
-        }
-        if ($request->hasFile('girl_national_id')) {
-            $certificate = $request->file('girl_national_id');
-            $girl_nid = time() . '.' . $certificate->getClientOriginalExtension();
-            $certificate->move(public_path('documents/national_ids'), $girl_nid);
-        }
-        if ($request->hasFile('girl_aids_certificate')) {
-            $certificate = $request->file('girl_aids_certificate');
-            $girl_aids = time() . '.' . $certificate->getClientOriginalExtension();
-            $certificate->move(public_path('documents/aids_certificate'), $girl_aids);
-        }
-        if ($request->hasFile('girl_ceribate_certificate')) {
-            $certificate = $request->file('girl_ceribate_certificate');
-            $girl_ceribate = time() . '.' . $certificate->getClientOriginalExtension();
-            $certificate->move(public_path('documents/ceribate_certificate'), $girl_ceribate);
-        }
 
-       WeddingProject::create($request->all(),[
-        'boy_national_id' => $boy_nid,
-        'boy_aids_certificate' => $boy_aids,
-        'boy_ceribate_certificate' =>$boy_ceribate,
-        'girl_national_id' => $girl_nid,
-        'girl_aids_certificate' => $girl_aids,
-        'girl_ceribate_certificate' => $girl_ceribate
-       ]);
-       return to_route('member.memberStep.weddingProjectList')->with('success', 'Your request has been sent successfully');
+        WeddingProject::create($request->all());
+        return to_route('member.memberStep.weddingProjectList')->with('success', 'Your request has been sent successfully');
+    }
+    public function destroyWeddingProject($id)
+    {
+        WeddingProject::where('id', $id)->first()->delete();
+        return back()->with('success', 'Deleted successfully');
     }
 
 }

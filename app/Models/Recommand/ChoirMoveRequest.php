@@ -2,8 +2,9 @@
 
 namespace App\Models\Recommand;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Office;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ChoirMoveRequest extends Model
 {
@@ -27,4 +28,16 @@ class ChoirMoveRequest extends Model
         'rejectedBy',
         'comment'
     ];
+    public function region()
+    {
+        return $this->belongsTo(Office::class);
+    }
+    public function parish()
+    {
+        return $this->belongsTo(Office::class);
+    }
+    public function localChurch()
+    {
+        return $this->belongsTo(Office::class);
+    }
 }

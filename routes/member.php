@@ -53,14 +53,19 @@ Route::group(['middleware' => 'guest'], function () {
         Route::delete('/funeral/{id}', 'destroyFuneral')->name('destroyFuneral');
         // holy Communion
         Route::get('/holy-communion', 'holyCommunion')->name('holyCommunion');
+        Route::get('/holy-communion-list', 'holyCommunionList')->name('holyCommunionList');
         Route::post('/holy-communion', 'storeHolyCommunion')->name('storeHolyCommunion');
+        Route::delete('/holy-communion/{id}', 'destroyHolyCommunion')->name('destroyHolyCommunion');
         // prayer request
         Route::get('/prayer-request', 'prayerRequest')->name('prayerRequest');
+        Route::get('/prayer-request-list', 'prayerRequestList')->name('prayerRequestList');
         Route::post('/prayer-request', 'storePrayerRequest')->name('storePrayerRequest');
+        Route::delete('/prayer-request/{id}', 'destroyPrayerRequest')->name('destroyPrayerRequest');
         // wedding project
         Route::get('/wedding-project', 'weddingProject')->name('weddingProject');
         Route::get('/wedding-project-list', 'weddingProjectList')->name('weddingProjectList');
         Route::post('/wedding-project', 'storeWeddingProject')->name('storeWeddingProject');
+        Route::delete('/wedding-project/{id}', 'destroyWeddingProject')->name('destroyWeddingProject');
     });
 
 
@@ -86,25 +91,34 @@ Route::group(['middleware' => 'guest'], function () {
         Route::get('/suggestion', 'suggestion')->name('suggestion');
         Route::get('/suggestion/list', 'suggestionList')->name('suggestionList');
         Route::post('/suggestion', 'storeSuggestion')->name('storeSuggestion');
+        Route::delete('/suggestion/{id}', 'destroySuggestion')->name('destroySuggestion');
         // praiseRequest
         Route::get('/praise-request', 'praiseRequest')->name('praiseRequest');
+        Route::get('/praise-request-list', 'praiseRequestList')->name('praiseRequestList');
         Route::post('/praise-request', 'storePraiseRequest')->name('storePraiseRequest');
+        Route::delete('/praise-request/{id}', 'destroyPraiseRequest')->name('destroyPraiseRequest');
         // preachRequest
         Route::get('/preach-request', 'preachRequest')->name('preachRequest');
+        Route::get('/preach-request-list', 'preachRequestList')->name('preachRequestList');
         Route::post('/preach-request', 'storePreachRequest')->name('storePreachRequest');
+        Route::delete('/preach-request/{id}', 'destroyPreachRequest')->name('destroyPreachRequest');
 
         // preach on social media
         Route::get('/socialMedia-preach', 'socialMediaPreach')->name('socialMediaPreach');
+        Route::get('/socialMedia-preach-list', 'socialMediaPreachList')->name('socialMediaPreachList');
         Route::post('/socialMedia-preach', 'storeSocialMediaPreach')->name('storeSocialMediaPreach');
+        Route::delete('/socialMedia-preach/{id}', 'destroySocialMediaPreach')->name('destroySocialMediaPreach');
         // choir moving
         Route::get('/choirMove-request', 'choirMove')->name('choirMove');
+        Route::get('/choirMove-request-list', 'choirMoveList')->name('choirMoveList');
         Route::post('/choirMove-request', 'storeChoirMove')->name('storeChoirMove');
+        Route::delete('/choirMove-request/{id}', 'destroyChoirMove')->name('destroyChoirMove');
 
         // Meeting with leaders requesu
         Route::get('/leaderMeet-request', 'leaderMeetRequest')->name('leaderMeetRequest');
+        Route::get('/leaderMeet-request-list', 'leaderMeetRequestList')->name('leaderMeetRequestList');
         Route::post('/leaderMeet-request', 'storeLeaderMeetRequest')->name('storeLeaderMeetRequest');
-
-
+        Route::delete('/leaderMeet-request/{id}', 'destroyLeaderMeetRequest')->name('destroyLeaderMeetRequest');
 
 
     });

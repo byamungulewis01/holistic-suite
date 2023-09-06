@@ -2,6 +2,7 @@
 
 @section('title','Suggestions Box')
 @section('css')
+<link rel="stylesheet" href="{{ asset('dist/libs/quill/dist/quill.snow.css') }}">
 <link rel="stylesheet" href="{{ asset('dist/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}">
 @endsection
 @section('body')
@@ -49,9 +50,10 @@
                             <div class="hstack p-2 border rounded mb-3 mb-md-0">
                                 <div class="ms-0">
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input primary cursor-pointer" checked type="radio" name="requestedBy"
-                                            id="radio1" value="1">
-                                        <label class="form-check-label cursor-pointer" for="radio1">Ninjye Wisabira</label>
+                                        <input class="form-check-input primary cursor-pointer" checked type="radio"
+                                            name="requestedBy" id="radio1" value="1">
+                                        <label class="form-check-label cursor-pointer" for="radio1">Ninjye
+                                            Wisabira</label>
                                     </div>
                                 </div>
                             </div>
@@ -60,9 +62,10 @@
                             <div class="hstack p-2 border rounded mb-3 mb-md-0">
                                 <div class="ms-0">
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input primary cursor-pointer" type="radio" name="requestedBy"
-                                            id="radio2" value="2">
-                                        <label class="form-check-label cursor-pointer" for="radio2">Gusabira undi</label>
+                                        <input class="form-check-input primary cursor-pointer" type="radio"
+                                            name="requestedBy" id="radio2" value="2">
+                                        <label class="form-check-label cursor-pointer" for="radio2">Gusabira
+                                            undi</label>
                                     </div>
                                 </div>
                             </div>
@@ -98,6 +101,13 @@
                     <div class="col-lg-12">
                         <label for="exampleFormControlTextarea1" class="form-label">Description<span
                                 class="text-danger">*</span></label>
+                        {{-- <div id="editor" style="height: 200px">
+                            <p>Hello World!</p>
+                            <p>Some initial <strong>bold</strong> text</p>
+                            <p>
+                                <br />
+                            </p>
+                        </div> --}}
                         <textarea class="form-control" placeholder="Description" required
                             id="exampleFormControlTextarea1" name="description" rows="4"></textarea>
                         @error('description')
@@ -116,6 +126,7 @@
 </div>
 @endsection
 @section('script')
+<script src="{{ asset('dist/libs/quill/dist/quill.min.js') }}"></script>
 <script src="{{ asset('dist/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
 <script>
     jQuery("#datepicker-autoclose").datepicker({
@@ -165,5 +176,10 @@
       });
     });
 
+</script>
+<script>
+    var quill = new Quill("#editor", {
+      theme: "snow",
+    });
 </script>
 @endsection

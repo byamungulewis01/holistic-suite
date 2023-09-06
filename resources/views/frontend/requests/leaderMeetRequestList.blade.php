@@ -1,6 +1,6 @@
 @extends('layouts.frontend.app')
 
-@section('title', 'Suggestions')
+@section('title', 'Igaburo Murugo')
 
 @section('body')
 <div class="col-md-12 col-lg-12 d-flex align-items-stretch">
@@ -8,7 +8,7 @@
         <div class="card-body">
             <div class="d-sm-flex d-block align-items-center justify-content-between mb-3">
                 <div class="mb-3 mb-sm-0">
-                    <h5 class="card-title fw-semibold">Suggestions List </h5>
+                    <h5 class="card-title fw-semibold">Request List</h5>
                 </div>
             </div>
             <div class="table-responsive">
@@ -19,8 +19,8 @@
                             <th scope="col">Reg Number</th>
                             <th scope="col">Names</th>
                             <th scope="col">Gender</th>
-                            <th scope="col">Category</th>
-                            <th scope="col">Description</th>
+                            <th scope="col">Leader</th>
+                            <th scope="col">Reason</th>
                             <th scope="col">Status</th>
                             <th scope="col">Apply Date</th>
                             <th scope="col"></th>
@@ -35,8 +35,10 @@
                             <td>@if ($item->member->gender == 1) {{ __('message.gender.0.name') }}
                                 @else {{ __('message.gender.1.name') }} @endif</td>
                             <td>
-                                @foreach (__('client/words.suggestions') as $item2)
-                                @if ($item->type == $item2['id']) {{ $item2['name'] }} @endif
+                                @foreach (__('client/words.leaders') as $item2)
+                                @if ($item->leader == $item2['id'])
+                                {{ $item2['name'] }}
+                                @endif
                                 @endforeach
                             </td>
                             <td>
@@ -48,7 +50,7 @@
                                         <div class="modal-content">
                                             <div class="modal-header d-flex align-items-center">
                                                 <h5 class="modal-title" id="myLargeModalLabel">
-                                                    Description
+                                                    Impamvu
                                                 </h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                     aria-label="Close"></button>
@@ -56,7 +58,7 @@
                                             <div class="modal-body">
 
                                                 <p>
-                                                    {{ $item->description }}
+                                                    {{ $item->reason }}
                                                 </p>
 
                                             </div>
@@ -76,7 +78,7 @@
                                 <span class="badge fw-semibold py-1 w-85 bg-light-danger text-danger">Reject</span>
                                 @endif
                             </td>
-                            <td>{{ $item->created_at->format('Y/m/d') }}</td>
+                            <td>{{ $item->created_at->format('m/d/Y') }}</td>
                             <td class="d-flex justify-content-center gap-1">
                                 @unless ($item->status != 1)
                                 <button data-bs-toggle="modal" data-bs-target="#deleteRequest{{ $item->id }}"
@@ -94,7 +96,7 @@
                                         <div class="modal-content modal-filled bg-light-danger">
                                             <div class="modal-body p-4">
                                                 <form
-                                                    action="{{ route('member.request.destroySuggestion',$item->id) }}"
+                                                    action="{{ route('member.request.destroyLeaderMeetRequest',$item->id) }}"
                                                     method="post">
                                                     @csrf
                                                     @method('DELETE')

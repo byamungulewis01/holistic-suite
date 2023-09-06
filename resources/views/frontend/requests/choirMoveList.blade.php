@@ -1,6 +1,6 @@
 @extends('layouts.frontend.app')
 
-@section('title', 'Suggestions')
+@section('title', 'Gusaba Gusohoka')
 
 @section('body')
 <div class="col-md-12 col-lg-12 d-flex align-items-stretch">
@@ -8,7 +8,7 @@
         <div class="card-body">
             <div class="d-sm-flex d-block align-items-center justify-content-between mb-3">
                 <div class="mb-3 mb-sm-0">
-                    <h5 class="card-title fw-semibold">Suggestions List </h5>
+                    <h5 class="card-title fw-semibold">Requests List </h5>
                 </div>
             </div>
             <div class="table-responsive">
@@ -16,11 +16,9 @@
                     <thead>
                         <tr class="text-muted fw-semibold">
                             <th scope="col">#</th>
-                            <th scope="col">Reg Number</th>
-                            <th scope="col">Names</th>
-                            <th scope="col">Gender</th>
-                            <th scope="col">Category</th>
-                            <th scope="col">Description</th>
+                            <th scope="col">Choir Name</th>
+                            <th scope="col">Aho Azasohokera</th>
+                            <th scope="col">Period</th>
                             <th scope="col">Status</th>
                             <th scope="col">Apply Date</th>
                             <th scope="col"></th>
@@ -30,42 +28,18 @@
                         @forelse ($collections as $item)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $item->member->reg_no }}</td>
-                            <td>{{ $item->member->name }}</td>
-                            <td>@if ($item->member->gender == 1) {{ __('message.gender.0.name') }}
-                                @else {{ __('message.gender.1.name') }} @endif</td>
+                            <td>{{ $item->choirName }}</td>
                             <td>
-                                @foreach (__('client/words.suggestions') as $item2)
-                                @if ($item->type == $item2['id']) {{ $item2['name'] }} @endif
-                                @endforeach
+                                @if ($item->places == 1)
+                                {{ $item->region->name }} / {{ $item->parish->name }} / {{ $item->localChurch->name }}
+                                @elseif($item->places == 2)
+                                {{ $item->elseWhere }}
+                                @else
+                                {{ $item->abroad }}
+                                @endif
                             </td>
                             <td>
-                                <a href="" class="text-muted" data-bs-toggle="modal"
-                                    data-bs-target="#viewMore{{ $item->id }}">View More</a>
-                                <div class="modal fade" id="viewMore{{ $item->id }}" tabindex="-1"
-                                    aria-labelledby="bs-example-modal-lg" aria-hidden="true">
-                                    <div class="modal-dialog modal-lg">
-                                        <div class="modal-content">
-                                            <div class="modal-header d-flex align-items-center">
-                                                <h5 class="modal-title" id="myLargeModalLabel">
-                                                    Description
-                                                </h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-
-                                                <p>
-                                                    {{ $item->description }}
-                                                </p>
-
-                                            </div>
-
-                                        </div>
-                                        <!-- /.modal-content -->
-                                    </div>
-                                    <!-- /.modal-dialog -->
-                                </div>
+                                {{ $item->date }}
                             </td>
                             <td>
                                 @if ($item->status == 1)
@@ -94,7 +68,7 @@
                                         <div class="modal-content modal-filled bg-light-danger">
                                             <div class="modal-body p-4">
                                                 <form
-                                                    action="{{ route('member.request.destroySuggestion',$item->id) }}"
+                                                    action="{{ route('member.request.destroyChoirMove',$item->id) }}"
                                                     method="post">
                                                     @csrf
                                                     @method('DELETE')

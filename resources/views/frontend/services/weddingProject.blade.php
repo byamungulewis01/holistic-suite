@@ -146,16 +146,16 @@
                                     <label for="whoIsMember" class="form-label mb-3">Umunyamuryango Ni?</label>
                                     <br>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input primary check-outline outline-primary"
+                                        <input class="form-check-input primary check-outline outline-primary cursor-pointer"
                                             type="radio" id="umusore" name="whoIsMember" value="umusore"
                                             @if(!old('whoIsMember') || old('whoIsMember')=='umusore' ) checked @endif>
-                                        <label class="form-check-label" for="umusore">Umusore</label>
+                                        <label class="form-check-label cursor-pointer" for="umusore">Umusore</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input primary check-outline outline-primary"
+                                        <input class="form-check-input primary check-outline outline-primary cursor-pointer"
                                             type="radio" id="umukobwa" name="whoIsMember" value="umukobwa"
                                             @if(old('whoIsMember')=='umukobwa' ) checked @endif>
-                                        <label class="form-check-label" for="umukobwa">Umukobwa</label>
+                                        <label class="form-check-label cursor-pointer" for="umukobwa">Umukobwa</label>
                                     </div>
                                 </div>
                                 <div class="mb-3">
@@ -200,7 +200,7 @@
                                 <div class="mb-3">
                                     <label for="phone" class="form-label">Phone Number <span
                                             class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" value="{{ old('phone') }}" minlength="10"
+                                    <input type="text" class="form-control number" value="{{ old('phone') }}" minlength="10"
                                         maxlength="10" name="phone" id="phone" placeholder="Enter Phone Number"
                                         autocomplete="off">
                                     @error('phone')
@@ -242,8 +242,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <label for="certificate">Certificate <span class="text-danger">*</span></label>
-                                    <input type="file" class="form-control" name="certificate" id="certificate"
-                                        autocomplete="off">
+                                    <input type="file" class="form-control" name="certificate" id="certificate" autocomplete="off">
                                     @error('type')
                                     <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -261,25 +260,25 @@
                             <div class="col-lg-6 ">
                                 <label class="form-label text-primary">UMUSORE </label>
                                 <div class="mb-3">
-                                    <label for="boy_national_id">Irangamuntu <span class="text-danger">*</span></label>
-                                    <input type="file" name="boy_national_id" class="form-control">
-                                    @error('boy_national_id')
+                                    <label for="boy_certificate1">Irangamuntu <span class="text-danger">*</span></label>
+                                    <input type="file" name="boy_certificate1" class="form-control">
+                                    @error('boy_certificate1')
                                     <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                                 <div class="mb-3">
-                                    <label for="boy_aids_certificate" class="form-label">Icyangobwa cya SIDA <span
+                                    <label for="boy_certificate2" class="form-label">Icyangobwa cya SIDA <span
                                             class="text-danger">*</span></label>
-                                    <input type="file" name="boy_aids_certificate" class="form-control">
-                                    @error('boy_aids_certificate')
+                                    <input type="file" name="boy_certificate2" class="form-control">
+                                    @error('boy_certificate2')
                                     <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                                 <div class="mb-3">
-                                    <label for="boy_ceribate_certificate" class="form-label">Attestation de Ceribate
+                                    <label for="boy_certificate3" class="form-label">Attestation de Ceribate
                                         <span class="text-danger">*</span></label>
-                                    <input type="file" name="boy_ceribate_certificate" class="form-control">
-                                    @error('boy_ceribate_certificate')
+                                    <input type="file" name="boy_certificate3" class="form-control">
+                                    @error('boy_certificate3')
                                     <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
@@ -287,25 +286,25 @@
                             <div class="col-lg-6 ">
                                 <label class="form-label text-primary">UMUKOBWA </label>
                                 <div class="mb-3">
-                                    <label for="girl_national_id">Irangamuntu <span class="text-danger">*</span></label>
-                                    <input type="file" name="girl_national_id" class="form-control">
-                                    @error('girl_national_id')
+                                    <label for="girl_certificate1">Irangamuntu <span class="text-danger">*</span></label>
+                                    <input type="file" name="girl_certificate1" class="form-control">
+                                    @error('girl_certificate1')
                                     <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                                 <div class="mb-3">
-                                    <label for="girl_aids_certificate" class="form-label">Icyangobwa cya SIDA <span
+                                    <label for="girl_certificate2" class="form-label">Icyangobwa cya SIDA <span
                                             class="text-danger">*</span></label>
-                                    <input type="file" name="girl_aids_certificate" class="form-control">
-                                    @error('girl_aids_certificate')
+                                    <input type="file" name="girl_certificate2" class="form-control">
+                                    @error('girl_certificate2')
                                     <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                                 <div class="mb-3">
-                                    <label for="girl_ceribate_certificate" class="form-label">Attestation de Ceribate
+                                    <label for="girl_certificate3" class="form-label">Attestation de Ceribate
                                         <span class="text-danger">*</span></label>
-                                    <input type="file" class="form-control" name="girl_ceribate_certificate">
-                                    @error('girl_ceribate_certificate')
+                                    <input type="file" class="form-control" name="girl_certificate3">
+                                    @error('girl_certificate3')
                                     <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
@@ -371,7 +370,7 @@
                                     class="text-danger">*</span></label>
                             <div class="input-group">
                                 <input name="proposedDate" type="text" class="form-control" id="datepicker-autoclose"
-                                    value="{{ old('proposedDate') }}" placeholder="mm/dd/yyyy" />
+                                    value="{{ old('proposedDate') }}" autocomplete="off" placeholder="mm/dd/yyyy" />
 
                                 <span class="input-group-text">
                                     <i class="ti ti-calendar fs-5"></i>

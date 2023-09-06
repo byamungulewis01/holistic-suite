@@ -1,6 +1,6 @@
 @extends('layouts.frontend.app')
 
-@section('title', 'Suggestions')
+@section('title', 'Wedding Project')
 
 @section('body')
 <div class="col-md-12 col-lg-12 d-flex align-items-stretch">
@@ -8,7 +8,7 @@
         <div class="card-body">
             <div class="d-sm-flex d-block align-items-center justify-content-between mb-3">
                 <div class="mb-3 mb-sm-0">
-                    <h5 class="card-title fw-semibold">Suggestions List </h5>
+                    <h5 class="card-title fw-semibold">Wedding Project List </h5>
                 </div>
             </div>
             <div class="table-responsive">
@@ -16,11 +16,10 @@
                     <thead>
                         <tr class="text-muted fw-semibold">
                             <th scope="col">#</th>
-                            <th scope="col">Reg Number</th>
-                            <th scope="col">Names</th>
-                            <th scope="col">Gender</th>
-                            <th scope="col">Category</th>
-                            <th scope="col">Description</th>
+                            <th scope="col">Boy Names</th>
+                            <th scope="col">Girl Names</th>
+                            <th scope="col">Proposal Date</th>
+                            <th scope="col">Proposal Church</th>
                             <th scope="col">Status</th>
                             <th scope="col">Apply Date</th>
                             <th scope="col"></th>
@@ -30,43 +29,22 @@
                         @forelse ($collections as $item)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $item->member->reg_no }}</td>
-                            <td>{{ $item->member->name }}</td>
-                            <td>@if ($item->member->gender == 1) {{ __('message.gender.0.name') }}
-                                @else {{ __('message.gender.1.name') }} @endif</td>
                             <td>
-                                @foreach (__('client/words.suggestions') as $item2)
-                                @if ($item->type == $item2['id']) {{ $item2['name'] }} @endif
-                                @endforeach
+                                @if ($item->churchMember == 'girl')
+                                 {{ $item->boy_name }}
+                                @else
+                                {{ $item->boy_member->name }}
+                                @endif
                             </td>
                             <td>
-                                <a href="" class="text-muted" data-bs-toggle="modal"
-                                    data-bs-target="#viewMore{{ $item->id }}">View More</a>
-                                <div class="modal fade" id="viewMore{{ $item->id }}" tabindex="-1"
-                                    aria-labelledby="bs-example-modal-lg" aria-hidden="true">
-                                    <div class="modal-dialog modal-lg">
-                                        <div class="modal-content">
-                                            <div class="modal-header d-flex align-items-center">
-                                                <h5 class="modal-title" id="myLargeModalLabel">
-                                                    Description
-                                                </h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-
-                                                <p>
-                                                    {{ $item->description }}
-                                                </p>
-
-                                            </div>
-
-                                        </div>
-                                        <!-- /.modal-content -->
-                                    </div>
-                                    <!-- /.modal-dialog -->
-                                </div>
+                                @if ($item->churchMember == 'boy')
+                                {{ $item->girl_name }}
+                               @else
+                               {{ $item->girl_member->name }}
+                               @endif
                             </td>
+                            <td>{{ $item->proposedDate }}</td>
+                            <td>{{ $item->region->name }} / {{ $item->parish->name }} / {{ $item->localChurch->name }}</td>
                             <td>
                                 @if ($item->status == 1)
                                 <span class="badge fw-semibold py-1 w-85 bg-light-primary text-primary">Pending</span>
@@ -76,7 +54,7 @@
                                 <span class="badge fw-semibold py-1 w-85 bg-light-danger text-danger">Reject</span>
                                 @endif
                             </td>
-                            <td>{{ $item->created_at->format('Y/m/d') }}</td>
+                            <td>{{ $item->created_at->format('m/d/Y') }}</td>
                             <td class="d-flex justify-content-center gap-1">
                                 @unless ($item->status != 1)
                                 <button data-bs-toggle="modal" data-bs-target="#deleteRequest{{ $item->id }}"
@@ -94,7 +72,7 @@
                                         <div class="modal-content modal-filled bg-light-danger">
                                             <div class="modal-body p-4">
                                                 <form
-                                                    action="{{ route('member.request.destroySuggestion',$item->id) }}"
+                                                    action="{{ route('member.memberStep.destroyWeddingProject',$item->id) }}"
                                                     method="post">
                                                     @csrf
                                                     @method('DELETE')
@@ -102,7 +80,7 @@
                                                         <i class="ti ti-hexagon-letter-x fs-7"></i>
                                                         <h4 class="mt-2">Are you sure to delete?</h4>
                                                         <p class="mt-3">
-                                                            You will not be able to recover this file data!
+                                                          You will not be able to recover this file data!
                                                         </p>
                                                         <button class="btn btn-light my-2">
                                                             Yes I'm sure
