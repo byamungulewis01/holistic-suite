@@ -159,17 +159,28 @@ use App\Http\Controllers\LocalChurch\RecommandationController;
     Route::controller(RequestController::class)->name('request.')->prefix('request')->group(function () {
 
         Route::get('/suggestion/list', 'suggestionList')->name('suggestionList');
+        Route::put('/suggestion/reply/{id}', 'suggestionReply')->name('suggestionReply');
 
         Route::get('/praise-request-list', 'praiseRequestList')->name('praiseRequestList');
+        Route::put('/praise-request/approve/{id}', 'praiseRequestApprove')->name('praiseRequestApprove');
+        Route::put('/praise-request/reject/{id}', 'praiseRequestReject')->name('praiseRequestReject');
 
 
         Route::get('/preach-request-list', 'preachRequestList')->name('preachRequestList');
+        Route::put('/preach-request/approve/{id}', 'preachRequestApprove')->name('preachRequestApprove');
+        Route::put('/preach-request/reject/{id}', 'preachRequestReject')->name('preachRequestReject');
 
         Route::get('/socialMedia-preach-list', 'socialMediaPreachList')->name('socialMediaPreachList');
+        Route::put('/socialMedia-preach/approve/{id}', 'socialMediaPreachApprove')->name('socialMediaPreachApprove');
+        Route::put('/socialMedia-preach/reject/{id}', 'socialMediaPreachReject')->name('socialMediaPreachReject');
 
         Route::get('/choirMove-request-list', 'choirMoveList')->name('choirMoveList');
+        Route::put('/choirMove-request/approve/{id}', 'choirMoveApprove')->name('choirMoveApprove');
+        Route::put('/choirMove-request/reject/{id}', 'choirMoveReject')->name('choirMoveReject');
 
         Route::get('/leaderMeet-request-list', 'leaderMeetRequestList')->name('leaderMeetRequestList');
+        Route::put('/leaderMeet-request/approve/{id}', 'leaderMeetRequestApprove')->name('leaderMeetRequestApprove');
+        Route::put('/leaderMeet-request/reject/{id}', 'leaderMeetRequestReject')->name('leaderMeetRequestReject');
 
 
     });

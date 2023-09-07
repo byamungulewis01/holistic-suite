@@ -68,50 +68,82 @@
                         </td>
                         <td>
                             @if ($item->status == 1)
-                            <span class="badge fw-semibold py-1 w-85 bg-light-primary text-primary">Pending</span>
+                            <span class="badge fw-semibold py-1 w-100 bg-light-primary text-primary">Pending</span>
                             @elseif($item->status == 2)
-                            <span class="badge fw-semibold py-1 w-85 bg-light-success text-success">Approved</span>
+                            <span class="badge fw-semibold py-1 w-100 bg-light-success text-success">Responded</span>
                             @else
-                            <span class="badge fw-semibold py-1 w-85 bg-light-danger text-danger">Reject</span>
+                            <span class="badge fw-semibold py-1 w-100 bg-light-danger text-danger">Reject</span>
                             @endif
                         </td>
                         <td>{{ $item->created_at->format('Y/m/d') }}</td>
                         <td class="d-flex justify-content-center gap-1">
                             @unless ($item->status != 1)
-                            <button data-bs-toggle="modal" data-bs-target="#deleteRequest{{ $item->id }}"
-                                class="btn btn-sm btn-danger" title="Delete"><i class="ti ti-trash"></i></button>
-
-                            @elseif($item->status == 2)
-                            <button class="btn btn-success">Accepted</button>
+                            <button data-bs-toggle="modal" data-bs-target="#approve{{ $item->id }}"
+                                class="btn btn-sm btn-success" title="Approve"><i class="ti ti-check"></i> Reply</button>
                             @else
-                            Rejected
-                            @endunless
-
-                            <div class="modal fade" id="deleteRequest{{ $item->id }}" tabindex="-1"
-                                aria-labelledby="vertical-center-modal" style="display: none;" aria-hidden="true">
+                            <a href="" data-bs-toggle="modal" data-bs-target="#rejectComment{{ $item->id }}">Comment</a>
+                            <div class="modal fade" id="rejectComment{{ $item->id }}" tabindex="-1"
+                                aria-labelledby="vertical-center-modal" aria-hidden="true">
                                 <div class="modal-dialog modal-md">
-                                    <div class="modal-content modal-filled bg-light-danger">
+                                    <div class="modal-content modal-filled">
                                         <div class="modal-body p-4">
-                                            <form
-                                                action="{{ route('member.request.destroySuggestion',$item->id) }}"
-                                                method="post">
-                                                @csrf
-                                                @method('DELETE')
-                                                <div class="text-center text-danger">
-                                                    <i class="ti ti-hexagon-letter-x fs-7"></i>
-                                                    <h4 class="mt-2">Are you sure to delete?</h4>
-                                                    <p class="mt-3">
-                                                        You will not be able to recover this file data!
-                                                    </p>
-                                                    <button class="btn btn-light my-2">
-                                                        Yes I'm sure
+                                            <div>
+                                                <div class="mb-3">
+                                                    <h4 class="mt-2 text-danger">Comment</h4>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <textarea rows="5" readonly
+                                                        class="form-control">{{ $item->reply }}</textarea>
+                                                </div>
+                                                <div class="text-end">
+                                                    <button type="button" class="btn btn-light font-medium"
+                                                        data-bs-dismiss="modal">
+                                                        Close
                                                     </button>
                                                 </div>
-                                            </form>
+                                            </div>
                                         </div>
                                     </div>
+                                    <!-- /.modal-content -->
                                 </div>
                             </div>
+                            @endunless
+                            <div class="modal fade" id="approve{{ $item->id }}" tabindex="-1"
+                                aria-labelledby="vertical-center-modal" aria-hidden="true">
+                                <div class="modal-dialog modal-md">
+                                    <div class="modal-content modal-filled">
+                                        <div class="modal-body p-4">
+                                            <div>
+                                                <div class="mb-3">
+                                                    <h4 class="mt-2">Provide Reply</h4>
+                                                </div>
+                                                <form
+                                                    action="{{ route('localChurch.request.suggestionReply',$item->id) }}"
+                                                    method="post">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <div class="mb-2">
+                                                        <label for="message-text" class="control-label">Comment:</label>
+                                                        <textarea name="reply" required class="form-control" id="message-text1"
+                                                            placeholder="Write Reply"></textarea>
+                                                    </div>
+                                                    <div class="text-center">
+                                                        <button class="btn btn-light-success my-2">
+                                                            Continue
+                                                        </button>
+                                                        <button type="button"
+                                                            class="btn btn-light-danger text-danger font-medium"
+                                                            data-bs-dismiss="modal">Close
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /.modal-content -->
+                                </div>
+                            </div>
+
                         </td>
                     </tr>
 

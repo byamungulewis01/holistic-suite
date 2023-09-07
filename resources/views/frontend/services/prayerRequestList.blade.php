@@ -142,7 +142,6 @@
                                     </div>
                                 </div>
                                 @endunless
-
                                 <div class="modal fade" id="deleteRequest{{ $item->id }}" tabindex="-1"
                                     aria-labelledby="vertical-center-modal" style="display: none;" aria-hidden="true">
                                     <div class="modal-dialog modal-md">

@@ -228,7 +228,7 @@
     ['localChurch.request.suggestionList','localChurch.request.praiseRequestList','localChurch.request.choirMoveList','localChurch.request.leaderMeetRequestList']) ? 'in' : '' }}">
         <!-- form elements -->
         <li class="sidebar-item {{ Request::routeIs('localChurch.request.suggestionList') ? 'active' : '' }}">
-            <a href="{{ route('localChurch.request.suggestionList','localChurch.request.preachRequestList','localChurch.request.socialMediaPreachList') }}"
+            <a href="{{ route('localChurch.request.suggestionList') }}"
                 class="sidebar-link">
                 <i class="ti ti-circle"></i>
                 <span class="hide-menu">Suggestions</span>
