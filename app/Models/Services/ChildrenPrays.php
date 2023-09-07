@@ -22,5 +22,6 @@ class ChildrenPrays extends Model
         'aproovedBy',
         'rejectedDate',
         'rejectedBy',
+        'comment'
     ];
 }

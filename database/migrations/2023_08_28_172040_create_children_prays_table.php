@@ -25,8 +25,8 @@ return new class extends Migration
             $table->string('aproovedDate')->nullable();
             $table->foreignUuid('aproovedBy')->nullable()->constrained('users');
             $table->string('rejectedDate')->nullable();
+            $table->text('comment')->nullable();
             $table->foreignUuid('rejectedBy')->nullable()->constrained('users');
-            $table->timestamps();
         });
     }
 

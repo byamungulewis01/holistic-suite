@@ -1,7 +1,5 @@
 @extends('layouts.frontend.app')
-
 @section('title', 'Igaburo Murugo')
-
 @section('body')
 <div class="col-md-12 col-lg-12 d-flex align-items-stretch">
     <div class="card w-100">

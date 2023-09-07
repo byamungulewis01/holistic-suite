@@ -8,10 +8,13 @@ use App\Http\Controllers\LocalChurch\ChildrenResource;
 use App\Http\Controllers\LocalChurch\PenitentResource;
 use App\Http\Controllers\LocalChurch\TeenagerResource;
 use App\Http\Controllers\LocalChurch\CallingController;
+use App\Http\Controllers\LocalChurch\RequestController;
 use App\Http\Controllers\LocalChurch\ClassStepController;
 use App\Http\Controllers\LocalChurch\CommissionController;
+use App\Http\Controllers\LocalChurch\MemberStepController;
 use App\Http\Controllers\LocalChurch\SundaySchoolController;
-use App\Http\Controllers\LocalChurch\OnlineServiceController;
+
+use App\Http\Controllers\LocalChurch\RecommandationController;
 
  Route::group(['middleware' => 'auth'], function () {
     // Route::get('lang/{lang}', ['as' => 'lang.switch', 'uses' => 'App\Http\Controllers\LanguageController@switchLang']);
@@ -115,11 +118,60 @@ use App\Http\Controllers\LocalChurch\OnlineServiceController;
 
     });
 
-    Route::controller(OnlineServiceController::class)->prefix('online-service')->name('onlineService.')->group(function () {
-        Route::get('/moving', 'moving')->name('moving');
-        Route::put('/moving/{id}', 'aprooveMoving')->name('aprooveMoving');
-        Route::put('/rejectMoving/{id}', 'rejectMoving')->name('rejectMoving');
-    });
+    Route::controller(MemberStepController::class)->name('memberStep.')->prefix('memberStep')->group(function () {
 
+        Route::get('/child-prays-list', 'childrenPraysList')->name('childrenPraysList');
+        Route::put('/child-prays/approve/{id}', 'childrenPraysApprove')->name('childrenPraysApprove');
+        Route::put('/child-prays/reject/{id}', 'childrenPraysReject')->name('childrenPraysReject');
+
+        // Apply for a Funeral
+
+        Route::get('/funeralList', 'funeralList')->name('funeralList');
+        Route::put('/funeralList/approve/{id}', 'funeralApprove')->name('funeralApprove');
+        Route::put('/funeralList/reject/{id}', 'funeralReject')->name('funeralReject');
+
+        // holy Communion
+        Route::get('/holy-communion-list', 'holyCommunionList')->name('holyCommunionList');
+        Route::put('/holy-communion/approve/{id}', 'holyCommunionApprove')->name('holyCommunionApprove');
+        Route::put('/holy-communion/reject/{id}', 'holyCommunionReject')->name('holyCommunionReject');
+
+        // prayer request
+
+        Route::get('/prayer-request-list', 'prayerRequestList')->name('prayerRequestList');
+        Route::put('/prayer-request/approve/{id}', 'prayerRequestApprove')->name('prayerRequestApprove');
+        Route::put('/prayer-request/reject/{id}', 'prayerRequestReject')->name('prayerRequestReject');
+
+        // wedding project
+
+        Route::get('/wedding-project-list', 'weddingProjectList')->name('weddingProjectList');
+
+    });
+    Route::controller(RecommandationController::class)->name('recommandation.')->prefix('recommandation')->group(function () {
+
+        // transfer
+        Route::get('/transferList', 'transferList')->name('transferList');
+
+
+        Route::get('/guterana', 'guterana')->name('guterana');
+        Route::get('/gusaba-akazi', 'gusabaAkazi')->name('gusabaAkazi');
+
+    });
+    Route::controller(RequestController::class)->name('request.')->prefix('request')->group(function () {
+
+        Route::get('/suggestion/list', 'suggestionList')->name('suggestionList');
+
+        Route::get('/praise-request-list', 'praiseRequestList')->name('praiseRequestList');
+
+
+        Route::get('/preach-request-list', 'preachRequestList')->name('preachRequestList');
+
+        Route::get('/socialMedia-preach-list', 'socialMediaPreachList')->name('socialMediaPreachList');
+
+        Route::get('/choirMove-request-list', 'choirMoveList')->name('choirMoveList');
+
+        Route::get('/leaderMeet-request-list', 'leaderMeetRequestList')->name('leaderMeetRequestList');
+
+
+    });
 
  });

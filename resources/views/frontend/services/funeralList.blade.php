@@ -40,11 +40,11 @@
                             <td>{{ $item->dateOfFuneral }}</td>
                             <td>
                                 @if ($item->status == 1)
-                                <span class="badge fw-semibold py-1 w-85 bg-light-primary text-primary">Pending</span>
+                                <span class="badge fw-semibold py-1 w-100 bg-light-primary text-primary">Pending</span>
                                 @elseif($item->status == 2)
-                                <span class="badge fw-semibold py-1 w-85 bg-light-success text-success">Approved</span>
+                                <span class="badge fw-semibold py-1 w-100 bg-light-success text-success">Approved</span>
                                 @else
-                                <span class="badge fw-semibold py-1 w-85 bg-light-danger text-danger">Reject</span>
+                                <span class="badge fw-semibold py-1 w-100 bg-light-danger text-danger">Reject</span>
                                 @endif
                             </td>
                             <td>{{ $item->created_at->format('m/d/Y') }}</td>
@@ -54,9 +54,61 @@
                                     class="btn btn-sm btn-danger" title="Delete"><i class="ti ti-trash"></i></button>
 
                                 @elseif($item->status == 2)
-                                <button class="btn btn-success">Accepted</button>
+                                <a href="" data-bs-toggle="modal"
+                                    data-bs-target="#approveComment{{ $item->id }}">Comment</a>
+                                <div class="modal fade" id="approveComment{{ $item->id }}" tabindex="-1"
+                                    aria-labelledby="vertical-center-modal" aria-hidden="true">
+                                    <div class="modal-dialog modal-md">
+                                        <div class="modal-content modal-filled">
+                                            <div class="modal-body p-4">
+                                                <div>
+                                                    <div class="mb-3">
+                                                        <h4 class="mt-2 text-success">Approve Comment</h4>
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <textarea rows="5" readonly
+                                                            class="form-control">{{ $item->comment }}</textarea>
+                                                    </div>
+                                                    <div class="text-end">
+                                                        <button type="button" class="btn btn-light font-medium"
+                                                            data-bs-dismiss="modal">
+                                                            Close
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- /.modal-content -->
+                                    </div>
+                                </div>
                                 @else
-                                Rejected
+                                <a href="" data-bs-toggle="modal"
+                                    data-bs-target="#rejectComment{{ $item->id }}">Comment</a>
+                                <div class="modal fade" id="rejectComment{{ $item->id }}" tabindex="-1"
+                                    aria-labelledby="vertical-center-modal" aria-hidden="true">
+                                    <div class="modal-dialog modal-md">
+                                        <div class="modal-content modal-filled">
+                                            <div class="modal-body p-4">
+                                                <div>
+                                                    <div class="mb-3">
+                                                        <h4 class="mt-2 text-danger">Reject Comment</h4>
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <textarea rows="5" readonly
+                                                            class="form-control">{{ $item->comment }}</textarea>
+                                                    </div>
+                                                    <div class="text-end">
+                                                        <button type="button" class="btn btn-light font-medium"
+                                                            data-bs-dismiss="modal">
+                                                            Close
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- /.modal-content -->
+                                    </div>
+                                </div>
                                 @endunless
 
                                 <div class="modal fade" id="deleteRequest{{ $item->id }}" tabindex="-1"

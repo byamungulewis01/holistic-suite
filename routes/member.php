@@ -67,8 +67,6 @@ Route::group(['middleware' => 'guest'], function () {
         Route::post('/wedding-project', 'storeWeddingProject')->name('storeWeddingProject');
         Route::delete('/wedding-project/{id}', 'destroyWeddingProject')->name('destroyWeddingProject');
     });
-
-
     Route::controller(RecommandationController::class)->name('recommandation.')->prefix('recommandation')->group(function () {
         Route::get('/moving', 'moving')->name('moving');
         Route::post('/moving', 'storeMoving')->name('storeMoving');

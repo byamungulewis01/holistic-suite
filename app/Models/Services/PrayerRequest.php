@@ -22,6 +22,7 @@ class PrayerRequest extends Model
         'aproovedBy',
         'rejectedDate',
         'rejectedBy',
+        'comment'
     ];
     public function member()
     {
