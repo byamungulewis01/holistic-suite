@@ -48,17 +48,17 @@
                         <span class="hide-menu">Recommandation</span>
                     </a>
                     <ul aria-expanded="false"
-                        class="collapse first-level {{ in_array(Route::currentRouteName(), ['member.recommandation.moving']) ? 'in' : '' }}">
+                        class="collapse first-level {{ in_array(Route::currentRouteName(), ['member.recommandation.assemblyProofList']) ? 'in' : '' }}">
                         <li
-                            class="sidebar-item {{ in_array(Route::currentRouteName(), ['member.recommandation.transferList']) ? 'active' : '' }}">
+                            class="sidebar-item {{ in_array(Route::currentRouteName(), ['member.recommandation.transferList','member.recommandation.assemblyProofList']) ? 'active' : '' }}">
                             <a href="{{ route('member.recommandation.transferList') }}" class="sidebar-link">
                                 <i class="ti ti-circle"></i>
                                 <span class="hide-menu">Transfer</span>
                             </a>
                         </li>
                         <li
-                            class="sidebar-item {{ in_array(Route::currentRouteName(), ['member.recommandation.moving']) ? 'active' : '' }}">
-                            <a href="#" class="sidebar-link">
+                            class="sidebar-item {{ in_array(Route::currentRouteName(), ['member.recommandation.assemblyProofList']) ? 'active' : '' }}">
+                            <a href="{{ route('member.recommandation.assemblyProofList') }}" class="sidebar-link">
                                 <i class="ti ti-circle"></i>
                                 <span class="hide-menu">Guterana</span>
                             </a>

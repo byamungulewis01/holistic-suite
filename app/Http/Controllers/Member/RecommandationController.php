@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Member;
 
+use App\Http\Controllers\Controller;
 use App\Models\Member;
 use App\Models\Office;
-use Illuminate\Http\Request;
+use App\Models\Recommand\AssemblyProof;
 use App\Models\Recommandation;
-use App\Http\Controllers\Controller;
 use App\Models\Recommand\TransferRequest;
+use Illuminate\Http\Request;
 
 class RecommandationController extends Controller
 {
@@ -73,12 +74,12 @@ class RecommandationController extends Controller
     public function transfer()
     {
         $regions = Office::where('type', 'region')->get();
-        return view('frontend.recommandation.transfer',compact('regions'));
+        return view('frontend.recommandation.transfer', compact('regions'));
     }
     public function transferList()
     {
-       $transfer = TransferRequest::where('applyBy', auth()->guard('member')->user()->id)->orderBy('created_at','desc')->get();
-       return view('frontend.recommandation.transferList',compact('transfer'));
+        $transfer = TransferRequest::where('applyBy', auth()->guard('member')->user()->id)->orderBy('created_at', 'desc')->get();
+        return view('frontend.recommandation.transferList', compact('transfer'));
     }
     public function storeTransfer(Request $request)
     {
@@ -109,14 +110,48 @@ class RecommandationController extends Controller
         TransferRequest::create($request->all());
         return to_route('member.recommandation.transferList')->with('success', 'Transfer Applied successfully');
     }
+
     public function destroyTransfer($id)
     {
         TransferRequest::where('id', $id)->first()->delete();
         return back()->with('success', 'Deleted successfully');
     }
-    public function guterana()
+    public function assemblyProof()
     {
-        return view('frontend.recommandation.guterana');
+        $regions = Office::where('type', 'region')->get();
+        return view('frontend.recommandation.assemblyProof', compact('regions'));
+    }
+    public function assemblyProofList()
+    {
+        $collections = AssemblyProof::where('applyBy', auth()->guard('member')->user()->id)->orderBy('created_at', 'desc')->get();
+        return view('frontend.recommandation.assemblyProofList', compact('collections'));
+    }
+    public function storeAssemblyProof(Request $request)
+    {
+        $request->validate([
+            'region' => 'required',
+            'parish' => 'required',
+            'local_church' => 'required',
+        ]);
+        if ($request->requestedBy == 2) {
+            $request->validate(['reg_number' => 'required|min:9|numeric|exists:members,reg_no']);
+        }
+        $member = ($request->requestedBy == 1) ? auth()->guard('member')->user()->member_id : Member::where('reg_no', $request->reg_number)->first()->id;
+        $request->merge([
+            'region_id' => Office::where('reg_number', $request->region)->first()->id,
+            'parish_id' => Office::where('reg_number', $request->parish)->first()->id,
+            'local_church_id' => Office::where('reg_number', $request->local_church)->first()->id,
+            'applyBy' => auth()->guard('member')->user()->id,
+            'member_id' => $member,
+        ]);
+
+        $check = AssemblyProof::where('member_id', $member)->where('status', 1)->first();
+        if ($check) {
+            return back()->with('error', 'You have already made Application');
+        }
+
+        AssemblyProof::create($request->all());
+        return to_route('member.recommandation.assemblyProofList')->with('success', 'Application Submited successfully');
     }
     // gusabaAkazi
     public function gusabaAkazi()

@@ -38,10 +38,10 @@
     </div>
     <div class="col-lg-6">
         <div class="card">
-            <form action="{{ route('member.memberStep.storePrayerRequest') }}" method="POST">
+            <form action="{{ route('member.recommandation.storeAssemblyProof') }}" method="POST">
                 @csrf
                 <div class="card-header">
-                    <h5 class="card-title mb-0">Gusaba Guterana</h5>
+                    <h5 class="card-title mb-0">Icyangobwa cyo Guterana</h5>
                 </div>
                 <div class="card-body">
                     <div class="row mb-3">
@@ -68,56 +68,58 @@
                             </div>
                         </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="reg_number" class="form-label">Numero Y'Umukristo <span
-                                class="text-danger">*</span></label>
-                        <input type="text" disabled class="form-control number" minlength="9" maxlength="9"
-                            name="reg_number" id="reg_number" placeholder="Enter Reg Number"
-                            value="{{ auth()->guard('member')->user()->reg_no }}" required autocomplete="off" autofocus>
-                        @error('reg_number')
-                        <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
                     <div class="row mb-3">
                         <div class="col-lg-6">
-                            <label for="datepicker-autoclose" class="form-label">Iteraniro <span
+                            <label for="reg_number" class="form-label">Numero Y'Umukristo <span
                                     class="text-danger">*</span></label>
-                                    <select name="service" class="form-select" style="height: 36px; width: 100%" required>
-                                        <option value="" selected disabled>Select</option>
-                                        @foreach (__('message.services') as $item)
-                                        <option {{ old('service') == $item['id'] ? 'selected' : '' }}
-                                            value="{{ $item['id'] }}">{{ $item['name'] }}</option>
-                                        @endforeach
-                                    </select>
-                            @error('service')
+                            <input type="text" disabled class="form-control number" minlength="9" maxlength="9"
+                                name="reg_number" id="reg_number" placeholder="Enter Reg Number"
+                                value="{{ auth()->guard('member')->user()->reg_no }}" required autocomplete="off"
+                                autofocus>
+                            @error('reg_number')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
                         <div class="col-lg-6">
-                            <label for="datepicker-autoclose" class="form-label">Itariki<span
+                            <label for="region" class="form-label mb-2">{{ __('message.region') }}<span
                                     class="text-danger">*</span></label>
-                            <div class="input-group">
-                                <input name="date" type="text" class="form-control" id="datepicker-autoclose1"
-                                    autocomplete="off" required value="{{ old('date') }}"
-                                    placeholder="mm/dd/yyyy" />
-
-                                <span class="input-group-text">
-                                    <i class="ti ti-calendar fs-5"></i>
-                                </span>
-                            </div>
-                            @error('date')
+                            <select class="form-select" name="region" style="width: 100%; height: 36px" required>
+                                <option selected disabled>Select</option>
+                                @foreach ($regions as $item)
+                                <option {{ old('region')==$item->reg_number ? 'selected' : '' }} value="{{
+                                    $item->reg_number }}">{{ $item->name }}</option>
+                                @endforeach
+                            </select>
+                            @error('region')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
                     </div>
-
-                    <div class="col-lg-12">
-                        <div>
-                            <label for="exampleFormControlTextarea1" class="form-label"> Icyifuzo / Isengesho<span
-                                    class="text-danger">*</span></label>
-                            <textarea class="form-control" placeholder="Icyifuzo cyo gusengera" required
-                                id="exampleFormControlTextarea1" name="prayers" rows="4"></textarea>
-                            @error('prayers')
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="message-text" class="control-label mb-2">Parish:</label>
+                            <select class="form-select" name="parish" style="width: 100%; height: 36px" required>
+                                @if (old('parish'))
+                                <option selected value="{{ old('parish') }}">{{
+                                    \App\Models\Office::where('reg_number',
+                                    old('parish'))->first()->name }}</option>
+                                @endif
+                            </select>
+                            @error('parish')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        {{-- local Church --}}
+                        <div class="col-md-6">
+                            <label for="message-text" class="control-label mb-2">Local Church:</label>
+                            <select class="form-select" name="local_church" style="width: 100%; height: 36px" required>
+                                @if (old('local_church'))
+                                <option selected value="{{ old('local_church') }}">{{
+                                    \App\Models\Office::where('reg_number',
+                                    old('local_church'))->first()->name }}</option>
+                                @endif
+                            </select>
+                            @error('local_church')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
@@ -184,4 +186,5 @@
     });
 
 </script>
+@include('frontend.officesAjaxCall')
 @endsection

@@ -81,8 +81,10 @@ Route::group(['middleware' => 'guest'], function () {
 
 
 
-        Route::get('/guterana', 'guterana')->name('guterana');
-        Route::get('/gusaba-akazi', 'gusabaAkazi')->name('gusabaAkazi');
+        Route::get('/assembly-proof', 'assemblyProof')->name('assemblyProof');
+        Route::get('/assembly-proof-list', 'assemblyProofList')->name('assemblyProofList');
+        Route::post('/assembly-proof', 'storeAssemblyProof')->name('storeAssemblyProof');
+        Route::delete('/assembly-proof', 'destroyAssemblyProof')->name('destroyAssemblyProof');
 
     });
     Route::controller(RequestController::class)->name('request.')->prefix('request')->group(function () {

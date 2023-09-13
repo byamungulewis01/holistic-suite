@@ -1,6 +1,7 @@
 @extends('layouts.frontend.app')
 
 @section('title','Preach Box')
+
 @section('css')
 <link rel="stylesheet" href="{{ asset('dist/libs/daterangepicker/daterangepicker.css') }}">
 @endsection

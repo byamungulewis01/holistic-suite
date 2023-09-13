@@ -93,6 +93,7 @@ class TeenagerResource extends Controller
      */
     public function show($id)
     {
+
         $member = Teenager::where('id',$id)->select('teenagers.*',
         DB::raw('(SELECT Province FROM rwanda_geography WHERE Prov_ID = teenagers.province_id LIMIT 1) as province'),
         DB::raw('(SELECT District FROM rwanda_geography WHERE Dist_ID = teenagers.district_id LIMIT 1) as district'),

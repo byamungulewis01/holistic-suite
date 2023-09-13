@@ -109,7 +109,7 @@ class MemberStepController extends Controller
 
     public function weddingProjectList()
     {
-        $collections = WeddingProject::where('local_church_id', auth()->user()->local_church_id)->orderBy('created_at', 'desc')->get();
+        $collections = WeddingProject::where('church', auth()->user()->local_church_id)->orderBy('created_at', 'desc')->get();
         return view('online-service.services.weddingProjectList', compact('collections'));
     }
 
