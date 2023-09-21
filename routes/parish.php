@@ -2,9 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Parish\UsersController;
+use App\Http\Controllers\Parish\ReportsController;
 use App\Http\Controllers\Parish\OfficeRegistration;
 
- Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => 'auth'], function () {
     // Route::get('lang/{lang}', ['as' => 'lang.switch', 'uses' => 'App\Http\Controllers\LanguageController@switchLang']);
 
     Route::controller(UsersController::class)->group(function () {
@@ -24,13 +25,21 @@ use App\Http\Controllers\Parish\OfficeRegistration;
             Route::delete('/{id}', 'destroyLocalChurchUser')->name('destroy');
         });
     });
-        // Office Registration
-        Route::controller(OfficeRegistration::class)->prefix('office')->name('office.')->group(function () {
-            // Local Church CRUD
-            Route::get('/local-church', 'localChurch')->name('localChurch');
-            Route::post('/local-church', 'storeLocalChurch')->name('storeLocalChurch');
-            Route::put('/local-church/{id}', 'updateLocalChurch')->name('updateLocalChurch');
-            Route::delete('/local-church/{id}', 'destroyLocalChurch')->name('destroyLocalChurch');
+    // Office Registration
+    Route::controller(OfficeRegistration::class)->prefix('office')->name('office.')->group(function () {
+        // Local Church CRUD
+        Route::get('/local-church', 'localChurch')->name('localChurch');
+        Route::post('/local-church', 'storeLocalChurch')->name('storeLocalChurch');
+        Route::put('/local-church/{id}', 'updateLocalChurch')->name('updateLocalChurch');
+        Route::delete('/local-church/{id}', 'destroyLocalChurch')->name('destroyLocalChurch');
 
-        });
- });
+    });
+
+    Route::controller(ReportsController::class)->name('report.')->prefix('report')->group(function () {
+        Route::get('/members', 'members')->name('members');
+        Route::get('/genderAndAge', 'genderAndAge')->name('genderAndAge');
+        Route::get('/educationLevel', 'educationLevel')->name('educationLevel');
+        Route::get('/socialSecurity', 'socialSecurity')->name('socialSecurity');
+        Route::get('/savingType', 'savingType')->name('savingType');
+    });
+});

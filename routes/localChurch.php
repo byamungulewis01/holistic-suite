@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LocalChurch\DisciplineController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LocalChurch\FriendResource;
 use App\Http\Controllers\LocalChurch\MemberResource;
@@ -15,6 +16,8 @@ use App\Http\Controllers\LocalChurch\MemberStepController;
 use App\Http\Controllers\LocalChurch\SundaySchoolController;
 
 use App\Http\Controllers\LocalChurch\RecommandationController;
+use App\Http\Controllers\LocalChurch\ReportsController;
+use App\Http\Controllers\LocalChurch\SettingController;
 
  Route::group(['middleware' => 'auth'], function () {
     // Route::get('lang/{lang}', ['as' => 'lang.switch', 'uses' => 'App\Http\Controllers\LanguageController@switchLang']);
@@ -59,6 +62,14 @@ use App\Http\Controllers\LocalChurch\RecommandationController;
         Route::post('/sunday-school', 'sundaySchoolStore')->name('sundaySchoolStore');
         Route::put('/sunday-school/{id}', 'sundaySchoolUpdate')->name('sundaySchoolUpdate');
         Route::delete('/sunday-school/{id}', 'sundaySchoolDestroy')->name('sundaySchoolDestroy');
+    });
+    Route::controller(DisciplineController::class)->prefix('discipline')->name('discipline.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::post('/', 'store')->name('store');
+        Route::put('/{id}', 'remove')->name('remove');
+        Route::get('/calling', 'calling')->name('calling');
+        Route::post('/calling', 'storeCalling')->name('storeCalling');
+        Route::get('/search', 'search')->name('search');
     });
     Route::controller(ClassStepController::class)->prefix('class-step')->name('step.')->group(function () {
         Route::get('/', 'index')->name('index');
@@ -144,16 +155,26 @@ use App\Http\Controllers\LocalChurch\RecommandationController;
         // wedding project
 
         Route::get('/wedding-project-list', 'weddingProjectList')->name('weddingProjectList');
+        Route::put('/wedding-project/approve/{id}', 'weddingProjectApprove')->name('weddingProjectApprove');
+        Route::put('/wedding-project/reject/{id}', 'weddingProjectReject')->name('weddingProjectReject');
 
     });
     Route::controller(RecommandationController::class)->name('recommandation.')->prefix('recommandation')->group(function () {
 
         // transfer
         Route::get('/transferList', 'transferList')->name('transferList');
+        Route::put('/transfer/approve/{id}', 'transferApprove')->name('transferApprove');
+        Route::put('/transfer/reject/{id}', 'transferReject')->name('transferReject');
 
 
-        Route::get('/guterana', 'guterana')->name('guterana');
-        Route::get('/gusaba-akazi', 'gusabaAkazi')->name('gusabaAkazi');
+        Route::get('/assembly-proof-list', 'assemblyProofList')->name('assemblyProofList');
+        Route::put('/assembly-proof/approve/{id}', 'assemblyProofApprove')->name('assemblyProofApprove');
+        Route::put('/assembly-proof/reject/{id}', 'assemblyProofReject')->name('assemblyProofReject');
+
+
+        Route::get('/member-proof-list', 'memberProofList')->name('memberProofList');
+        Route::put('/member-proof/approve/{id}', 'memberProofAppove')->name('memberProofAppove');
+        Route::put('/member-proof/reject/{id}', 'memberProofReject')->name('memberProofReject');
 
     });
     Route::controller(RequestController::class)->name('request.')->prefix('request')->group(function () {
@@ -181,8 +202,19 @@ use App\Http\Controllers\LocalChurch\RecommandationController;
         Route::get('/leaderMeet-request-list', 'leaderMeetRequestList')->name('leaderMeetRequestList');
         Route::put('/leaderMeet-request/approve/{id}', 'leaderMeetRequestApprove')->name('leaderMeetRequestApprove');
         Route::put('/leaderMeet-request/reject/{id}', 'leaderMeetRequestReject')->name('leaderMeetRequestReject');
-
-
     });
+
+    Route::controller(SettingController::class)->name('setting.')->prefix('setting')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::put('/setWeddingPrice', 'setWeddingPrice')->name('setWeddingPrice');
+    });
+    Route::controller(ReportsController::class)->name('report.')->prefix('report')->group(function () {
+        Route::get('/members', 'members')->name('members');
+        Route::get('/genderAndAge', 'genderAndAge')->name('genderAndAge');
+        Route::get('/educationLevel', 'educationLevel')->name('educationLevel');
+        Route::get('/socialSecurity', 'socialSecurity')->name('socialSecurity');
+        Route::get('/savingType', 'savingType')->name('savingType');
+    });
+
 
  });

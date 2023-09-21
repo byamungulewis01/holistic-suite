@@ -10,5 +10,6 @@ return [
     'commission' => 'Amakomisiyo',
     'sundaySchool' => 'Ishuri ryo ku cyumweru',
     'calling' => 'Abanyamuhamagaro',
+    'discipline' => 'Imyitwarire',
     'sundaySchoolTeacher' => 'Abarimu ba bana',
 ];

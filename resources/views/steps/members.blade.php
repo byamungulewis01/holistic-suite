@@ -40,9 +40,11 @@
                     <td>{{ explode(' - ', $class->period)[1] }} </td>
                     <td>
                         @if ($class->status == 1)
-                        <span class="mb-1 badge font-medium bg-light-info text-info">{{ __('message.callingStatus.0.name') }}</span>
+                        <span class="mb-1 badge font-medium bg-light-info text-info">{{
+                            __('message.callingStatus.0.name') }}</span>
                         @else
-                        <span class="mb-1 badge font-medium bg-light-danger text-danger">{{ __('message.callingStatus.1.name') }}</span>
+                        <span class="mb-1 badge font-medium bg-light-danger text-danger">{{
+                            __('message.callingStatus.1.name') }}</span>
                         @endif
                     </td>
                 </tr>
@@ -52,6 +54,63 @@
 </div>
 <div class="product-list">
     <div class="card">
+        @if ($class->step_id == 2)
+        <div class="card-body p-3">
+            <div class="d-flex justify-content-between align-items-center mb-9">
+                <h4 class="mb-0">Marriage Project</h4>
+            </div>
+            <table class="table align-middle text-nowrap mb-0" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Boy Names</th>
+                        <th scope="col">Boy Phone</th>
+                        <th scope="col">Girl Names</th>
+                        <th scope="col">Girl Phone</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($members as $item)
+                    <tr>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>
+                            @if ($item->wedding->churchMember == 'girl')
+                            {{ $item->wedding->boy_name }}
+                            @else
+                            {{ $item->wedding->boy_member->name }}
+                            @endif
+                        </td>
+                        <td>
+                            @if ($item->wedding->churchMember == 'girl')
+                            {{ $item->wedding->boy_phone }}
+                            @else
+                            {{ $item->wedding->boy_member->phone }}
+                            @endif
+                        </td>
+                        <td>
+                            @if ($item->wedding->churchMember == 'boy')
+                            {{ $item->wedding->girl_name }}
+                            @else
+                            {{ $item->wedding->girl_member->name }}
+                            @endif
+                        </td>
+                        <td>
+                            @if ($item->wedding->churchMember == 'boy')
+                            {{ $item->wedding->girl_phone }}
+                            @else
+                            {{ $item->wedding->girl_member->phone }}
+                            @endif
+                        </td>
+                        <td><button data-bs-toggle="modal" data-bs-target="#complete{{ $item->id }}"
+                                class="btn btn-sm btn-success">Completion</button></td>
+                    </tr>
+
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+        @else
         <div class="card-body p-3">
             <div class="d-flex justify-content-between align-items-center mb-9">
                 <h4 class="mb-0">Class Members List</h4>
@@ -82,24 +141,33 @@
                                         <div class="mb-3 text-center">
                                             <div class="btn-group" data-bs-toggle="buttons">
                                                 <label class="btn btn-light-primary text-primary font-medium active">
-                                                  <div class="form-check">
-                                                    <input type="radio" id="penitent" name="member_type" value="penitent" class="form-check-input">
-                                                    <label class="form-check-label" for="penitent"><span class="d-block d-md-none">1</span><span class="d-none d-md-block">Penitent</span></label>
-                                                  </div>
+                                                    <div class="form-check">
+                                                        <input type="radio" id="penitent" name="member_type"
+                                                            value="penitent" class="form-check-input">
+                                                        <label class="form-check-label" for="penitent"><span
+                                                                class="d-block d-md-none">1</span><span
+                                                                class="d-none d-md-block">Penitent</span></label>
+                                                    </div>
                                                 </label>
                                                 <label class="btn btn-light-primary text-primary font-medium">
-                                                  <div class="form-check">
-                                                    <input type="radio" id="teenager" name="member_type" value="teenager" class="form-check-input">
-                                                    <label class="form-check-label" for="teenager"><span class="d-block d-md-none">2</span><span class="d-none d-md-block">Teenager</span></label>
-                                                  </div>
+                                                    <div class="form-check">
+                                                        <input type="radio" id="teenager" name="member_type"
+                                                            value="teenager" class="form-check-input">
+                                                        <label class="form-check-label" for="teenager"><span
+                                                                class="d-block d-md-none">2</span><span
+                                                                class="d-none d-md-block">Teenager</span></label>
+                                                    </div>
                                                 </label>
                                                 <label class="btn btn-light-primary text-primary font-medium">
-                                                  <div class="form-check">
-                                                    <input type="radio" id="friend" name="member_type" value="friend" class="form-check-input">
-                                                    <label class="form-check-label" for="friend"><span class="d-block d-md-none">3</span><span class="d-none d-md-block">Freind</span></label>
-                                                  </div>
+                                                    <div class="form-check">
+                                                        <input type="radio" id="friend" name="member_type"
+                                                            value="friend" class="form-check-input">
+                                                        <label class="form-check-label" for="friend"><span
+                                                                class="d-block d-md-none">3</span><span
+                                                                class="d-none d-md-block">Freind</span></label>
+                                                    </div>
                                                 </label>
-                                              </div>
+                                            </div>
                                         </div>
                                         <div class="mb-3">
                                             <label for="message-text" class="control-label mb-2">Member :</label>
@@ -120,32 +188,33 @@
                     </div>
                     <div class="modal fade" id="exampleModal" tabindex="-1" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-scrollable modal-md">
-                          <div class="modal-content rounded-1">
-                            <div class="modal-header d-flex align-items-center">
-                                <h4 class="modal-title" id="exampleModalLabel1">
-                                    Assign Member to Class
-                                </h4>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
+                            <div class="modal-content rounded-1">
+                                <div class="modal-header d-flex align-items-center">
+                                    <h4 class="modal-title" id="exampleModalLabel1">
+                                        Assign Member to Class
+                                    </h4>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
 
-                            </div>
-                            <div class="modal-body">
-                            <div class="border-bottom mb-3">
-                                <input type="search" class="form-control fs-3" placeholder="Search here" id="searchInput" autocomplete="off" />
-                            </div>
-                            <form action="{{ route('localChurch.step.newMember',$class->id) }}" method="post">
-                                @csrf
-                                <div class="message-body" data-simplebar="">
-                                    <div id="message" class="text-center mb-3" role="alert">
-                                      Search for a member to assign to this class....
+                                </div>
+                                <div class="modal-body">
+                                    <div class="border-bottom mb-3">
+                                        <input type="search" class="form-control fs-3" placeholder="Search here"
+                                            id="searchInput" autocomplete="off" />
                                     </div>
-                                  <ul id="searchResults" class="list mb-0 py-2">
-                                  </ul>
-                               </div>
-                               <div id="memberInfoDiv" style="display: none;"></div>
-                              </div>
-                            </form>
-                          </div>
+                                    <form action="{{ route('localChurch.step.newMember',$class->id) }}" method="post">
+                                        @csrf
+                                        <div class="message-body" data-simplebar="">
+                                            <div id="message" class="text-center mb-3" role="alert">
+                                                Search for a member to assign to this class....
+                                            </div>
+                                            <ul id="searchResults" class="list mb-0 py-2">
+                                            </ul>
+                                        </div>
+                                        <div id="memberInfoDiv" style="display: none;"></div>
+                                </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -167,14 +236,16 @@
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>@if ($item->type == 'baptism')
-                           {{ ($item->from == 1) ? $item->penitent->name : ($item->from == 2 ? $item->teenager->name : $item->friend->name) }}
-                        @else
+                            {{ ($item->from == 1) ? $item->penitent->name : ($item->from == 2 ? $item->teenager->name :
+                            $item->friend->name) }}
+                            @else
                             {{ $item->member->name }}
-                        @endif
+                            @endif
                         </td>
                         <td>
                             @if ($item->type == 'baptism')
-                            {{ ($item->from == 1) ? $item->penitent->phone : ($item->from == 2 ? $item->teenager->phone : $item->friend->phone) }}
+                            {{ ($item->from == 1) ? $item->penitent->phone : ($item->from == 2 ? $item->teenager->phone
+                            : $item->friend->phone) }}
                             @else
                             {{ $item->member->phone }}
                             @endif
@@ -184,28 +255,29 @@
                         <td>
                             @if ($item->type == 'baptism')
                             @if ($item->status == 1)
-                            <span
-                                class="mb-1 badge font-medium bg-light-info text-info">New Biliever</span>
+                            <span class="mb-1 badge font-medium bg-light-info text-info">New Biliever</span>
                             @else
-                            <span
-                                class="mb-1 badge font-medium bg-light-success text-success">Completed</span>
+                            <span class="mb-1 badge font-medium bg-light-success text-success">Completed</span>
                             @endif
                             @else
                             @if ($item->status == 1)
-                            <span
-                                class="mb-1 badge font-medium bg-light-info text-info">{{ __('message.callingStatus.0.name') }}</span>
+                            <span class="mb-1 badge font-medium bg-light-info text-info">{{
+                                __('message.callingStatus.0.name') }}</span>
                             @else
-                            <span
-                                class="mb-1 badge font-medium bg-light-danger text-danger">{{ __('message.callingStatus.1.name') }}</span>
+                            <span class="mb-1 badge font-medium bg-light-danger text-danger">{{
+                                __('message.callingStatus.1.name') }}</span>
                             @endif
                             @endif
                         </td>
                         <td class="text-center">
                             @if ($item->type == 'baptism')
-                            <button data-bs-toggle="modal" data-bs-target="#deleteList{{ $item->id }}" class="btn btn-sm btn-danger">Delete</button>
-                            <button data-bs-toggle="modal" data-bs-target="#complete{{ $item->id }}" class="btn btn-sm btn-success">Completion</button>
+                            <button data-bs-toggle="modal" data-bs-target="#deleteList{{ $item->id }}"
+                                class="btn btn-sm btn-danger">Delete</button>
+                            <button data-bs-toggle="modal" data-bs-target="#complete{{ $item->id }}"
+                                class="btn btn-sm btn-success">Completion</button>
                             @else
-                            <button data-bs-toggle="modal" data-bs-target="#deleteMember{{ $item->id }}" class="btn btn-sm btn-danger"><i class="ti ti-trash"></i> Delete</button>
+                            <button data-bs-toggle="modal" data-bs-target="#deleteMember{{ $item->id }}"
+                                class="btn btn-sm btn-danger"><i class="ti ti-trash"></i> Delete</button>
                             @endif
 
 
@@ -221,7 +293,8 @@
                                                 <div class="text-center text-dark">
                                                     <h4 class="mt-2">Completion Baptism Class</h4>
                                                     <p class="mt-3">
-                                                        <strong>Dear Pastor are you sure Inshuti is completed Baptism class ?</strong>
+                                                        <strong>Dear Pastor are you sure Inshuti is completed Baptism
+                                                            class ?</strong>
                                                     </p>
                                                     <button class="btn btn-success my-2">
                                                         Yes I'm sure
@@ -289,6 +362,7 @@
                 </tbody>
             </table>
         </div>
+        @endif
     </div>
 </div>
 
@@ -305,7 +379,7 @@
 
 </script>
 <script>
-$(document).ready(function() {
+    $(document).ready(function() {
         $('#penitent').on('click', function() {
             $.ajax({
         url: '{{ route("localChurch.penitentApi") }}',

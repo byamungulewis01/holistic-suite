@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Services\WeddingProject;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,6 +18,7 @@ class ClassMember extends Model
         'member_id',
         'type',
         'status',
+        'wedding_project_id',
     ];
     // relationships
     public function penitent()
@@ -35,9 +37,13 @@ class ClassMember extends Model
     {
         return $this->belongsTo(Member::class);
     }
-    public function class()
+    public function class ()
     {
         return $this->belongsTo(ClassStep::class);
+    }
+    public function wedding()
+    {
+        return $this->belongsTo(WeddingProject::class, 'wedding_project_id');
     }
 
 }

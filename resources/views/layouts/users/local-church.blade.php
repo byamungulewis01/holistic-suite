@@ -137,6 +137,33 @@
 
     </ul>
 </li>
+<li class="sidebar-item">
+    <a class="sidebar-link has-arrow" href="#member" aria-expanded="false">
+        <span class="d-flex">
+            <i class="ti ti-alert-circle"></i>
+        </span>
+        <span class="hide-menu"> {{ __('church/churchNav.discipline') }}</span>
+    </a>
+    <ul aria-expanded="false" class="collapse first-level">
+        <li class="sidebar-item">
+            <a href="{{ route('localChurch.discipline.index') }}" class="sidebar-link">
+                <div class="round-16 d-flex align-items-center justify-content-center">
+                    <i class="ti ti-circle"></i>
+                </div>
+                <span class="hide-menu">Members</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="{{ route('localChurch.discipline.calling') }}" class="sidebar-link">
+                <div class="round-16 d-flex align-items-center justify-content-center">
+                    <i class="ti ti-circle"></i>
+                </div>
+                <span class="hide-menu">{{ __('church/churchNav.calling') }}</span>
+            </a>
+        </li>
+
+    </ul>
+</li>
 <li class="nav-small-cap">
     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
     <span class="hide-menu">Online Services</span>
@@ -157,15 +184,15 @@
             </a>
         </li>
         <li
-            class="sidebar-item {{ in_array(Route::currentRouteName(), ['localChurch.recommandation.moving']) ? 'active' : '' }}">
-            <a href="#" class="sidebar-link">
+            class="sidebar-item {{ in_array(Route::currentRouteName(), ['localChurch.recommandation.assemblyProofList']) ? 'active' : '' }}">
+            <a href="{{ route('localChurch.recommandation.assemblyProofList') }}" class="sidebar-link">
                 <i class="ti ti-circle"></i>
                 <span class="hide-menu">Guterana</span>
             </a>
         </li>
         <li
-            class="sidebar-item {{ in_array(Route::currentRouteName(), ['localChurch.recommandation.moving']) ? 'active' : '' }}">
-            <a href="##" class="sidebar-link">
+            class="sidebar-item {{ in_array(Route::currentRouteName(), ['localChurch.recommandation.memberProofList']) ? 'active' : '' }}">
+            <a href="{{ route('localChurch.recommandation.memberProofList') }}" class="sidebar-link">
                 <i class="ti ti-circle"></i>
                 <span class="hide-menu">Gusaba Akazi</span>
             </a>
@@ -228,8 +255,7 @@
     ['localChurch.request.suggestionList','localChurch.request.praiseRequestList','localChurch.request.choirMoveList','localChurch.request.leaderMeetRequestList']) ? 'in' : '' }}">
         <!-- form elements -->
         <li class="sidebar-item {{ Request::routeIs('localChurch.request.suggestionList') ? 'active' : '' }}">
-            <a href="{{ route('localChurch.request.suggestionList') }}"
-                class="sidebar-link">
+            <a href="{{ route('localChurch.request.suggestionList') }}" class="sidebar-link">
                 <i class="ti ti-circle"></i>
                 <span class="hide-menu">Suggestions</span>
             </a>
@@ -265,4 +291,69 @@
             </a>
         </li>
     </ul>
+</li>
+
+<li class="nav-small-cap">
+    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+    <span class="hide-menu">Reports & Settings</span>
+</li>
+
+<li class="sidebar-item">
+    <a class="sidebar-link has-arrow" href="#" aria-expanded="false">
+        <span class="d-flex">
+            <i class="ti ti-qrcode"></i>
+        </span>
+        <span class="hide-menu">Church Reports</span>
+    </a>
+    <ul aria-expanded="false" class="collapse first-level">
+        <li class="sidebar-item">
+            <a href="{{ route('localChurch.report.members') }}" class="sidebar-link">
+                <div class="round-16 d-flex align-items-center justify-content-center">
+                    <i class="ti ti-circle"></i>
+                </div>
+                <span class="hide-menu">Members General report</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="{{ route('localChurch.report.genderAndAge') }}" class="sidebar-link">
+                <div class="round-16 d-flex align-items-center justify-content-center">
+                    <i class="ti ti-circle"></i>
+                </div>
+                <span class="hide-menu">Member Gender & Age</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="{{ route('localChurch.report.educationLevel') }}" class="sidebar-link">
+                <div class="round-16 d-flex align-items-center justify-content-center">
+                    <i class="ti ti-circle"></i>
+                </div>
+                <span class="hide-menu">Member Education Level</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="{{ route('localChurch.report.socialSecurity') }}" class="sidebar-link">
+                <div class="round-16 d-flex align-items-center justify-content-center">
+                    <i class="ti ti-circle"></i>
+                </div>
+                <span class="hide-menu">Member Social Security</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a href="{{ route('localChurch.report.savingType') }}" class="sidebar-link">
+                <div class="round-16 d-flex align-items-center justify-content-center">
+                    <i class="ti ti-circle"></i>
+                </div>
+                <span class="hide-menu">Member Savings</span>
+            </a>
+        </li>
+    </ul>
+</li>
+
+<li class="sidebar-item">
+    <a class="sidebar-link sidebar-link" href="{{ route('localChurch.setting.index') }}" aria-expanded="false">
+        <span class="rounded-3">
+            <i class="ti ti-settings"></i>
+        </span>
+        <span class="hide-menu">Pre defined</span>
+    </a>
 </li>

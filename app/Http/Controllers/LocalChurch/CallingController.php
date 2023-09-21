@@ -22,7 +22,7 @@ class CallingController extends Controller
         $members = Member::where(function ($query) use ($searchTerm) {
             $query->where('name', 'LIKE', "%$searchTerm%");
             $query->orWhere('reg_no', 'LIKE', "%$searchTerm%");
-            })->where('local_church_id', auth()->user()->local_church_id)->get();
+            })->where('status',1)->where('local_church_id', auth()->user()->local_church_id)->get();
 
         return response()->json($members);
     }

@@ -60,7 +60,7 @@
                                         <div class="modal-content modal-filled bg-light-danger">
                                             <div class="modal-body p-4">
                                                 <form
-                                                    action="{{ route('member.recommandation.destroyTransfer',$item->id) }}"
+                                                    action="{{ route('member.recommandation.destroyAssemblyProof',$item->id) }}"
                                                     method="post">
                                                     @csrf
                                                     @method('DELETE')

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Region\UsersController;
+use App\Http\Controllers\Region\ReportsController;
 use App\Http\Controllers\Region\OfficeRegistration;
 
  Route::group(['middleware' => 'auth'], function () {
@@ -48,5 +49,12 @@ use App\Http\Controllers\Region\OfficeRegistration;
         Route::put('/local-church/{id}', 'updateLocalChurch')->name('updateLocalChurch');
         Route::delete('/local-church/{id}', 'destroyLocalChurch')->name('destroyLocalChurch');
 
+    });
+    Route::controller(ReportsController::class)->name('report.')->prefix('report')->group(function () {
+        Route::get('/members', 'members')->name('members');
+        Route::get('/genderAndAge', 'genderAndAge')->name('genderAndAge');
+        Route::get('/educationLevel', 'educationLevel')->name('educationLevel');
+        Route::get('/socialSecurity', 'socialSecurity')->name('socialSecurity');
+        Route::get('/savingType', 'savingType')->name('savingType');
     });
  });

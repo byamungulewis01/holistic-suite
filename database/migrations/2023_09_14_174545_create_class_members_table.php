@@ -18,8 +18,9 @@ return new class extends Migration
             $table->foreignUuid('teenager_id')->nullable()->constrained()->cascadeOnDelete();
             $table->foreignUuid('friend_id')->nullable()->constrained()->cascadeOnDelete();
             $table->foreignUuid('member_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignId('wedding_project_id')->nullable()->constrained('wedding_projects')->cascadeOnDelete();
             $table->enum('from', [1,2,3])->nullable();
-            $table->enum('type', ['baptism','others']);
+            $table->enum('type', ['baptism','mariage','others']);
             $table->enum('status', [1,2,3])->default(1)->comment('1:start, 2:left, 3:end');
             $table->timestamps();
         });

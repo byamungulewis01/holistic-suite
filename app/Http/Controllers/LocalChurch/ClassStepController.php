@@ -73,8 +73,8 @@ class ClassStepController extends Controller
 
         $request->merge([
             'class_id' => $id,
-            'type' => 'baptism',
-        ]);
+            'type' => 'baptism',]);
+            
         if ($request->member_type == 'penitent') {
              $request->merge(['penitent_id' => $request->member,'from' => 1]);
              ClassMember::create($request->all());

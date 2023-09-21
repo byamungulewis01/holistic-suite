@@ -160,7 +160,7 @@
                             </li>
                             <li class="d-flex align-items-center gap-1 mb-2">
                                 <a class="text-decoration-none"
-                                    href="#">Icyemezo cyo Gusaba
+                                    href="{{ route('member.recommandation.memberProof') }}">Icyemezo cyo Gusaba
                                     akazi</a>
                             </li>
                             <li class="d-flex align-items-center gap-1 mb-2">

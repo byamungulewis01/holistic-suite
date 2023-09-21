@@ -6,6 +6,7 @@ return [
     'teenager' => 'Teenager',
     'friends' => 'Friends',
     'calling' => 'Calling',
+    'discipline' => 'Discipline',
     'classStep' => 'Member Step / Class',
     'group' => 'Ministry Group',
     'commission' => 'Commissions',

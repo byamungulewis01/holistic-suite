@@ -79,12 +79,16 @@ Route::group(['middleware' => 'guest'], function () {
         Route::post('/transfer', 'storeTransfer')->name('storeTransfer');
         Route::delete('/transfer/{id}', 'destroyTransfer')->name('destroyTransfer');
 
-
-
         Route::get('/assembly-proof', 'assemblyProof')->name('assemblyProof');
         Route::get('/assembly-proof-list', 'assemblyProofList')->name('assemblyProofList');
         Route::post('/assembly-proof', 'storeAssemblyProof')->name('storeAssemblyProof');
         Route::delete('/assembly-proof', 'destroyAssemblyProof')->name('destroyAssemblyProof');
+
+
+        Route::get('/member-proof', 'memberProof')->name('memberProof');
+        Route::get('/member-proof-list', 'memberProofList')->name('memberProofList');
+        Route::post('/member-proof', 'storeMemberProof')->name('storeMemberProof');
+        Route::delete('/member-proof', 'destroyMemberProof')->name('destroyMemberProof');
 
     });
     Route::controller(RequestController::class)->name('request.')->prefix('request')->group(function () {

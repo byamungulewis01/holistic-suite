@@ -63,9 +63,8 @@
                                 <span class="hide-menu">Guterana</span>
                             </a>
                         </li>
-                        <li
-                            class="sidebar-item {{ in_array(Route::currentRouteName(), ['member.recommandation.moving']) ? 'active' : '' }}">
-                            <a href="##" class="sidebar-link">
+                        <li class="sidebar-item {{ in_array(Route::currentRouteName(), ['member.recommandation.memberProofList']) ? 'active' : '' }}">
+                            <a href="{{ route('member.recommandation.memberProofList') }}" class="sidebar-link">
                                 <i class="ti ti-circle"></i>
                                 <span class="hide-menu">Gusaba Akazi</span>
                             </a>
