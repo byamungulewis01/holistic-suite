@@ -248,7 +248,7 @@
                     style="width: 100%; height: 36px">
                     <option value="" disabled selected>Select</option>
                     @foreach(__('message.callings') as $item)
-                        <option {{ old('education') == $item['id'] ? 'selected' : '' }} value="{{ $item['id'] }}">
+                        <option {{ old('category_id') == $item['id'] ? 'selected' : '' }} value="{{ $item['id'] }}">
                         {{ $item['name'] }}
                         </option>
                     @endforeach

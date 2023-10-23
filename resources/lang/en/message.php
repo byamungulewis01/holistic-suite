@@ -82,4 +82,8 @@ return [
         ['id' => 2,'name' => 'Vice President'],
         ['id' => 3,'name' => 'Secretary'],
     ],
+    'user-type' => [
+        ['id' => 1,'name' => 'Header'],
+        ['id' => 2,'name' => 'support'],
+    ],
 ];

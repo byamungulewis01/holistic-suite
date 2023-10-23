@@ -45,7 +45,7 @@ class ProfileController extends Controller
              'old_password' => 'required',
              'password' => 'required|confirmed|min:8',
          ]);
-         $user = MemberAccount::where('member_id',auth()->guard('member')->user()->member_id);
+         $user = MemberAccount::where('member_id',auth()->guard('member')->user()->member_id)->first();
          if (Hash::check($request->old_password, $user->password)) {
              $user->update(['password' => Hash::make($request->password)]);
              auth()->guard('member')->logout();

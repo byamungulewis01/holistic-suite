@@ -11,6 +11,7 @@ class MemberProof extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'document_no',
         'member_id',
         'region_id',
         'parish_id',

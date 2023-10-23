@@ -12,7 +12,9 @@ class TransferRequest extends Model
     use HasFactory;
     protected $fillable = [
         'member_id',
+        'document_no',
         'from',
+        'parish_from',
         'region_id',
         'parish_id',
         'local_church_id',

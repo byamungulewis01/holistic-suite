@@ -79,9 +79,10 @@
                             @error('reg_number')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
+
                         </div>
                         <div class="col-lg-6">
-                            <label for="region" class="form-label mb-2">{{ __('message.region') }}<span
+                            <label for="region" class="form-label mb-2">Ururembo rwa<span
                                     class="text-danger">*</span></label>
                             <select class="form-select" name="region" style="width: 100%; height: 36px" required>
                                 <option selected disabled>Select</option>
@@ -97,8 +98,8 @@
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label for="message-text" class="control-label mb-2">Parish:</label>
-                            <select class="form-select" name="parish" style="width: 100%; height: 36px" required>
+                        <label for="parish" class="form-label">Paruwase ya:<span class="text-danger">*</span></label>
+                            <select class="form-select" id="parish" name="parish" style="width: 100%; height: 36px" required>
                                 @if (old('parish'))
                                 <option selected value="{{ old('parish') }}">{{
                                     \App\Models\Office::where('reg_number',
@@ -111,8 +112,8 @@
                         </div>
                         {{-- local Church --}}
                         <div class="col-md-6">
-                            <label for="message-text" class="control-label mb-2">Local Church:</label>
-                            <select class="form-select" name="local_church" style="width: 100%; height: 36px" required>
+                        <label for="local_church" class="form-label">Itorero rya:<span class="text-danger">*</span></label>
+                            <select id="local_church" class="form-select" name="local_church" style="width: 100%; height: 36px" required>
                                 @if (old('local_church'))
                                 <option selected value="{{ old('local_church') }}">{{
                                     \App\Models\Office::where('reg_number',
@@ -123,6 +124,14 @@
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="reason" class="form-label">Impamvu:<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" name="reason" id="reason" placeholder="Impamvu" required
+                            autocomplete="off">
+                        @error('reg_number')
+                        <span class="text-danger">{{ $message }}</span>
+                        @enderror
                     </div>
                     <div class="col-lg-12 mt-3">
                         <div class="hstack justify-content-start gap-2">

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('member_proofs', function (Blueprint $table) {
             $table->id();
+            $table->string('document_no')->unique()->nullable();
             $table->foreignUuid('member_id')->constrained('members');
             $table->foreignUuid('region_id')->constrained('offices');
             $table->foreignUuid('parish_id')->constrained('offices');

@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\LocalChurch\DisciplineController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\LocalChurch\FriendResource;
 use App\Http\Controllers\LocalChurch\MemberResource;
 use App\Http\Controllers\LocalChurch\GroupController;
@@ -9,15 +9,16 @@ use App\Http\Controllers\LocalChurch\ChildrenResource;
 use App\Http\Controllers\LocalChurch\PenitentResource;
 use App\Http\Controllers\LocalChurch\TeenagerResource;
 use App\Http\Controllers\LocalChurch\CallingController;
+use App\Http\Controllers\LocalChurch\ReportsController;
 use App\Http\Controllers\LocalChurch\RequestController;
+use App\Http\Controllers\LocalChurch\SettingController;
 use App\Http\Controllers\LocalChurch\ClassStepController;
 use App\Http\Controllers\LocalChurch\CommissionController;
+
+use App\Http\Controllers\LocalChurch\DisciplineController;
 use App\Http\Controllers\LocalChurch\MemberStepController;
 use App\Http\Controllers\LocalChurch\SundaySchoolController;
-
 use App\Http\Controllers\LocalChurch\RecommandationController;
-use App\Http\Controllers\LocalChurch\ReportsController;
-use App\Http\Controllers\LocalChurch\SettingController;
 
  Route::group(['middleware' => 'auth'], function () {
     // Route::get('lang/{lang}', ['as' => 'lang.switch', 'uses' => 'App\Http\Controllers\LanguageController@switchLang']);
@@ -66,6 +67,7 @@ use App\Http\Controllers\LocalChurch\SettingController;
     Route::controller(DisciplineController::class)->prefix('discipline')->name('discipline.')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::post('/', 'store')->name('store');
+
         Route::put('/{id}', 'remove')->name('remove');
         Route::get('/calling', 'calling')->name('calling');
         Route::post('/calling', 'storeCalling')->name('storeCalling');
@@ -166,16 +168,19 @@ use App\Http\Controllers\LocalChurch\SettingController;
         Route::put('/transfer/approve/{id}', 'transferApprove')->name('transferApprove');
         Route::put('/transfer/reject/{id}', 'transferReject')->name('transferReject');
 
-
         Route::get('/assembly-proof-list', 'assemblyProofList')->name('assemblyProofList');
         Route::put('/assembly-proof/approve/{id}', 'assemblyProofApprove')->name('assemblyProofApprove');
         Route::put('/assembly-proof/reject/{id}', 'assemblyProofReject')->name('assemblyProofReject');
-
 
         Route::get('/member-proof-list', 'memberProofList')->name('memberProofList');
         Route::put('/member-proof/approve/{id}', 'memberProofAppove')->name('memberProofAppove');
         Route::put('/member-proof/reject/{id}', 'memberProofReject')->name('memberProofReject');
 
+    });
+    Route::controller(CertificateController::class)->name('certificate.')->prefix('certificate')->group(function () {
+        Route::get('/transferCert/{id}', 'transferCert')->name('transferCert');
+        Route::get('/assembly-proof/{id}', 'assemblyProofCert')->name('assemblyProofCert');
+        Route::get('/member-proof/{id}', 'memberProofCert')->name('memberProofCert');
     });
     Route::controller(RequestController::class)->name('request.')->prefix('request')->group(function () {
 
@@ -207,6 +212,8 @@ use App\Http\Controllers\LocalChurch\SettingController;
     Route::controller(SettingController::class)->name('setting.')->prefix('setting')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::put('/setWeddingPrice', 'setWeddingPrice')->name('setWeddingPrice');
+        Route::put('/setPhone', 'setPhone')->name('setPhone');
+        Route::put('/setEmail', 'setEmail')->name('setEmail');
     });
     Route::controller(ReportsController::class)->name('report.')->prefix('report')->group(function () {
         Route::get('/members', 'members')->name('members');

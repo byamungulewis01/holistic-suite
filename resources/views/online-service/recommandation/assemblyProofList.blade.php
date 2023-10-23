@@ -16,6 +16,7 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Applicant Names</th>
+                        <th scope="col">Reason</th>
                         <th scope="col">Region</th>
                         <th scope="col">Parish</th>
                         <th scope="col">Church</th>
@@ -29,16 +30,17 @@
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $item->member->name }}</td>
-                        <td>{{ $item->region->name }}</td>
-                        <td>{{ $item->parish->name }}</td>
-                        <td>{{ $item->localChurch->name }}</td>
+                        <td>{{ $item->reason }}</td>
+                        <td>{{ $item->member->region->name }}</td>
+                        <td>{{ $item->member->parish->name }}</td>
+                        <td>{{ $item->member->localChurch->name }}</td>
                         <td>
                             @if ($item->status == 1)
-                            <span class="badge fw-semibold py-1 w-85 bg-light-primary text-primary">Pending</span>
+                            <span class="badge fw-semibold py-1 w-100 bg-light-primary text-primary">Pending</span>
                             @elseif($item->status == 2)
-                            <span class="badge fw-semibold py-1 w-85 bg-light-success text-success">Approved</span>
+                            <span class="badge fw-semibold py-1 w-100 bg-light-success text-success">Approved</span>
                             @else
-                            <span class="badge fw-semibold py-1 w-85 bg-light-danger text-danger">Reject</span>
+                            <span class="badge fw-semibold py-1 w-100 bg-light-danger text-danger">Reject</span>
                             @endif
                         </td>
                         <td>{{ $item->created_at->format('Y/m/d') }}</td>
@@ -50,8 +52,9 @@
                                 class="btn btn-sm btn-danger" title="Delete"><i class="ti ti-letter-x"></i></button>
 
                             @elseif($item->status == 2)
-                            <a href="" data-bs-toggle="modal"
-                                data-bs-target="#approveComment{{ $item->id }}">Comment</a>
+                            {{-- <a href="" data-bs-toggle="modal" data-bs-target="#approveComment{{ $item->id }}">Comment</a> --}}
+                            <a href="{{ route('localChurch.certificate.assemblyProofCert',encrypt($item->id)) }}" class="btn btn-sm btn-success" target="_blank" title="Download"><i class="ti ti-download"></i></a>
+
                             <div class="modal fade" id="approveComment{{ $item->id }}" tabindex="-1"
                                 aria-labelledby="vertical-center-modal" aria-hidden="true">
                                 <div class="modal-dialog modal-md">

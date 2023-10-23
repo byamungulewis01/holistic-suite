@@ -14,10 +14,13 @@ return new class extends Migration
         Schema::create('assembly_proofs', function (Blueprint $table) {
             $table->id();
             $table->foreignUuid('member_id')->constrained('members');
+            $table->string('document_no')->unique()->nullable();
             $table->foreignUuid('region_id')->constrained('offices');
             $table->foreignUuid('parish_id')->constrained('offices');
             $table->foreignUuid('local_church_id')->constrained('offices');
-            $table->enum('status',[1,2,3])->default(1);
+            $table->enum('status', [1, 2, 3])->default(1);
+            $table->string('reason')->nullable();
+            $table->string('period')->nullable();
             $table->foreignUuid('applyBy')->constrained('member_accounts');
             $table->string('aproovedDate')->nullable();
             $table->foreignUuid('aproovedBy')->nullable()->constrained('users');

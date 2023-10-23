@@ -22,54 +22,73 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
-                            <form action="{{ route('users.headquarter.store') }}" method="POST">
-                                <div class="modal-body">
+                                <form action="{{ route('users.headquarter.store') }}" method="POST">
+                                    <div class="modal-body">
                                         @csrf
                                         <div class="mb-3">
                                             <label for="name" class="control-label">Name:</label>
-                                            <input type="text" name="name" value="{{ old('name') }}" class="form-control" id="name" placeholder="Enter Name" required
-                                            autofocus autocomplete="off">
+                                            <input type="text" name="name" value="{{ old('name') }}"
+                                                class="form-control" id="name" placeholder="Enter Name" required
+                                                autofocus autocomplete="off">
                                             @error('name')
+                                            <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="username" class="control-label">Username:</label>
+                                            <input type="text" name="username" value="{{ old('username') }}"
+                                                class="form-control" id="username" placeholder="Enter Username" required
+                                                autocomplete="off">
+                                            @error('username')
                                             <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </div>
 
                                         <div class="mb-3">
                                             <label for="email" class="control-label">Email:</label>
-                                            <input type="email" name="email"  value="{{ old('email') }}" class="form-control" id="email" placeholder="Enter Email" required
-                                            autocomplete="off">
-                                           @error('email')
-                                             <span class="text-danger">{{ $message }}</span>
-                                           @enderror
-                                       </div>
+                                            <input type="email" name="email" value="{{ old('email') }}"
+                                                class="form-control" id="email" placeholder="Enter Email" required
+                                                autocomplete="off">
+                                            @error('email')
+                                            <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
 
                                         {{-- phone --}}
-                                        <div class="mb-3">
-                                            <label for="phone" class="control-label">Phone:</label>
-                                            <input type="text" minlength="10" maxlength="10" name="phone"  value="{{ old('phone') }}" class="form-control phone" id="phone" placeholder="Enter Phone" required
-                                            autocomplete="off">
-                                            @error('phone')
-                                            <span class="text-danger">{{ $message }}</span>
-                                            @enderror
+                                        <div class="row mb-3">
+                                            <div class="col-md-7">
+                                                <label for="phone" class="control-label">Phone:</label>
+                                                <input type="text" minlength="10" maxlength="10" name="phone"
+                                                    value="{{ old('phone') }}" class="form-control phone" id="phone"
+                                                    placeholder="Enter Phone" required autocomplete="off">
+                                                @error('phone')
+                                                <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                            <div class="col-md-5">
+                                                <label for="post" class="control-label">Post:</label>
+                                                <select name="post" class="form-select">
+                                                    <option {{ old('post')==1 ? 'selected' : '' }} value="1">{{
+                                                        __('message.user-type.0.name') }} </option>
+                                                    <option {{ old('post')==2 ? 'selected' : '' }} value="2">{{
+                                                        __('message.user-type.1.name') }}</option>
+                                                </select>
+                                                @error('post')
+                                                <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
                                         </div>
 
-                                        <div class="mb-3">
-                                            <label for="username" class="control-label">Username:</label>
-                                            <input type="text" name="username"  value="{{ old('username') }}" class="form-control" id="username" placeholder="Enter Username" required
-                                            autocomplete="off">
-                                            @error('username')
-                                            <span class="text-danger">{{ $message }}</span>
-                                            @enderror
-                                        </div>
+
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-light-danger text-danger font-medium"
-                                        data-bs-dismiss="modal">
-                                        Close
-                                    </button>
-                                    <button class="btn btn-success"> Submit </button>
-                                </div>
-                            </form>
+                                            data-bs-dismiss="modal">
+                                            Close
+                                        </button>
+                                        <button class="btn btn-success"> Submit </button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -85,6 +104,7 @@
                         <th scope="col">Phone</th>
                         <th scope="col">Email</th>
                         <th scope="col">Username</th>
+                        <th scope="col">Post</th>
                         <th scope="col">Created At</th>
                         <th scope="col"></th>
                     </tr>
@@ -97,16 +117,23 @@
                         <td>{{ $item->phone }}</td>
                         <td>{{ $item->email }}</td>
                         <td>{{ $item->username }}</td>
+                        <td>@if ($item->post == 1) {{ __('message.user-type.0.name') }}
+                            @else {{ __('message.user-type.1.name') }} @endif</td>
                         <td>{{ \Carbon\Carbon::parse($item->created_at)->format('d ,M Y H:i') }}</td>
                         <td>
-                            <a href="" data-bs-toggle="modal" data-bs-target="#editOffice" class="btn btn-sm btn-outline-primary editOffice">
-                                <span data-id="{{ $item->id }}" data-name = "{{ $item->name }}" data-phone = "{{ $item->phone }}" data-email = "{{ $item->email }}" data-username = "{{ $item->username }}">
-                                Edit</span>
+                            <a href="" data-bs-toggle="modal" data-bs-target="#editOffice"
+                                class="btn btn-sm btn-outline-primary editOffice">
+                                <span data-id="{{ $item->id }}" data-name="{{ $item->name }}"
+                                    data-phone="{{ $item->phone }}" data-email="{{ $item->email }}"
+                                    data-username="{{ $item->username }}" data-post="{{ $item->post }}">
+                                    Edit</span>
                             </a>
-                            <form action="{{ route('users.headquarter.destroy', $item->id) }}" method="POST" class="d-inline">
+                            <form action="{{ route('users.headquarter.destroy', $item->id) }}" method="POST"
+                                class="d-inline">
                                 @csrf
                                 @method('DELETE')
-                                <button class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?')">Delete</button>
+                                <button class="btn btn-sm btn-outline-danger"
+                                    onclick="return confirm('Are you sure?')">Delete</button>
                             </form>
                         </td>
                     </tr>
@@ -124,60 +151,71 @@
                 <h4 class="modal-title" id="exampleModalLabel1">
                     Edit User
                 </h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                    aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-        <form id="updateform" method="POST">
-            <div class="modal-body">
+            <form id="updateform" method="POST">
+                <div class="modal-body">
                     @csrf
                     @method('PUT')
                     <div class="mb-3">
                         <input type="hidden" name="id" id="id" value="{{ old('id') }}">
                         <label for="name" class="control-label">Name:</label>
-                        <input type="text" name="name" value="{{ old('name') }}" class="form-control" id="name" placeholder="Enter Name" required
-                        autofocus autocomplete="off">
-                     @error('name')
+                        <input type="text" name="name" value="{{ old('name') }}" class="form-control" id="name"
+                            placeholder="Enter Name" required autofocus autocomplete="off">
+                        @error('name')
                         <span class="text-danger">{{ $message }}</span>
-                     @enderror
+                        @enderror
                     </div>
-
-                    <div class="mb-3">
-                        <label for="email" class="control-label">Email:</label>
-                        <input type="email" name="email"  value="{{ old('email') }}" class="form-control" id="email" placeholder="Enter Email" required
-                        autocomplete="off">
-                    @error('email')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
-                   </div>
-
-                    {{-- phone --}}
-                    <div class="mb-3">
-                        <label for="phone" class="control-label">Phone:</label>
-                        <input type="text" minlength="10" maxlength="10" name="phone"  value="{{ old('phone') }}" class="form-control phone" id="phone" placeholder="Enter Phone" required
-                        autocomplete="off">
-                    @error('phone')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
-                    </div>
-
                     <div class="mb-3">
                         <label for="username" class="control-label">Username:</label>
-                        <input type="text" name="username"  value="{{ old('username') }}" class="form-control" id="username" placeholder="Enter Username" required
-                        autocomplete="off">
-                    @error('username')
+                        <input type="text" name="username" value="{{ old('username') }}" class="form-control"
+                            id="username" placeholder="Enter Username" required autocomplete="off">
+                        @error('username')
                         <span class="text-danger">{{ $message }}</span>
-                    @enderror
+                        @enderror
                     </div>
+                    <div class="mb-3">
+                        <label for="email" class="control-label">Email:</label>
+                        <input type="email" name="email" value="{{ old('email') }}" class="form-control" id="email"
+                            placeholder="Enter Email" required autocomplete="off">
+                        @error('email')
+                        <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    {{-- phone --}}
+                    <div class="row mb-3">
+                        <div class="col-md-7">
+                            <label for="phone" class="control-label">Phone:</label>
+                            <input type="text" minlength="10" maxlength="10" name="phone" value="{{ old('phone') }}"
+                                class="form-control phone" id="phone" placeholder="Enter Phone" required autocomplete="off">
+                            @error('phone')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="col-md-5">
+                            <label for="post" class="control-label">Post:</label>
+                            <select name="post" class="form-select" id="post">
+                                <option {{ old('post')==1 ? 'selected' : '' }} value="1">{{
+                                    __('message.user-type.0.name') }} </option>
+                                <option {{ old('post')==2 ? 'selected' : '' }} value="2">{{
+                                    __('message.user-type.1.name') }}</option>
+                            </select>
+                            @error('post')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-light-danger text-danger font-medium"
-                    data-bs-dismiss="modal">
-                    Close
-                </button>
-                <button class="btn btn-success"> Save Changes </button>
-            </div>
-        </form>
+                    <button type="button" class="btn btn-light-danger text-danger font-medium" data-bs-dismiss="modal">
+                        Close
+                    </button>
+                    <button class="btn btn-success"> Save Changes </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -190,12 +228,14 @@
             var phone = $(this).find('span').data('phone');
             var email = $(this).find('span').data('email');
             var username = $(this).find('span').data('username');
+            var post = $(this).find('span').data('post');
             // Populate the modal fields with the retrieved data
             $('#editOffice').find('#id').val(id);
             $('#editOffice').find('#name').val(name);
             $('#editOffice').find('#phone').val(phone);
             $('#editOffice').find('#email').val(email);
             $('#editOffice').find('#username').val(username);
+            $('#editOffice').find('#post').val(post);
 
             var route = "{{ route('users.headquarter.update', ['id' => ':id']) }}";
                 route = route.replace(':id', id);

@@ -49,7 +49,8 @@
                                     class="btn btn-sm btn-danger" title="Delete"><i class="ti ti-trash"></i></button>
 
                                 @elseif($item->status == 2)
-                                <button class="btn btn-success">Certificate</button>
+                            <a href="{{ route('member.certificate.memberProofCert',encrypt($item->id)) }}" class="btn btn-sm btn-success" target="_blank" title="Download"><i class="ti ti-download"></i></a>
+
                                 @else
                                 Rejected
                                 @endunless

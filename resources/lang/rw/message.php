@@ -82,5 +82,9 @@ return [
         ['id' => 2,'name' => 'Visi Perezida'],
         ['id' => 3,'name' => 'Umunyamabanga'],
     ],
+    'user-type' => [
+        ['id' => 1,'name' => 'Umuyobozi'],
+        ['id' => 2,'name' => 'Uwunganira'],
+    ],
 
 ];

@@ -1,6 +1,6 @@
 @extends('layouts.frontend.app')
 
-@section('title', 'Transfer')
+@section('title', 'Guterana')
 
 @section('body')
 <div class="col-md-12 col-lg-12 d-flex align-items-stretch">
@@ -8,7 +8,7 @@
         <div class="card-body">
             <div class="d-sm-flex d-block align-items-center justify-content-between mb-3">
                 <div class="mb-3 mb-sm-0">
-                    <h5 class="card-title fw-semibold">Transfer Certificate </h5>
+                    <h5 class="card-title fw-semibold">Icyemezo cyo guterana </h5>
                 </div>
             </div>
             <div class="table-responsive">
@@ -17,6 +17,7 @@
                         <tr class="text-muted fw-semibold">
                             <th scope="col">#</th>
                             <th scope="col">Applicant Names</th>
+                            <th scope="col">Reason</th>
                             <th scope="col">Region</th>
                             <th scope="col">Parish</th>
                             <th scope="col">Church</th>
@@ -30,6 +31,7 @@
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $item->member->name }}</td>
+                            <td>{{ $item->reason }}</td>
                             <td>{{ $item->region->name }}</td>
                             <td>{{ $item->parish->name }}</td>
                             <td>{{ $item->localChurch->name }}</td>
@@ -49,7 +51,8 @@
                                     class="btn btn-sm btn-danger" title="Delete"><i class="ti ti-trash"></i></button>
 
                                 @elseif($item->status == 2)
-                                <button class="btn btn-success">Certificate</button>
+                            <a href="{{ route('member.certificate.assemblyProofCert',encrypt($item->id)) }}" class="btn btn-sm btn-success" target="_blank" title="Download"><i class="ti ti-download"></i></a>
+
                                 @else
                                 Rejected
                                 @endunless

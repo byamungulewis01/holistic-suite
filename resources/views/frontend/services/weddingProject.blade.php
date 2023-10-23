@@ -242,7 +242,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <label for="certificate">Certificate <span class="text-danger">*</span></label>
-                                    <input type="file" class="form-control" name="certificate" id="certificate" autocomplete="off">
+                                    <input accept=".png,.jpg,.pdf" type="file" class="form-control" name="certificate" id="certificate" autocomplete="off">
                                     @error('type')
                                     <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -261,7 +261,7 @@
                                 <label class="form-label text-primary">UMUSORE </label>
                                 <div class="mb-3">
                                     <label for="boy_certificate1">Irangamuntu <span class="text-danger">*</span></label>
-                                    <input type="file" name="boy_certificate1" class="form-control">
+                                    <input accept=".png,.jpg,.pdf" type="file" name="boy_certificate1" class="form-control">
                                     @error('boy_certificate1')
                                     <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -269,7 +269,7 @@
                                 <div class="mb-3">
                                     <label for="boy_certificate2" class="form-label">Icyangobwa cya SIDA <span
                                             class="text-danger">*</span></label>
-                                    <input type="file" name="boy_certificate2" class="form-control">
+                                    <input accept=".png,.jpg,.pdf" type="file" name="boy_certificate2" class="form-control">
                                     @error('boy_certificate2')
                                     <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -277,7 +277,7 @@
                                 <div class="mb-3">
                                     <label for="boy_certificate3" class="form-label">Attestation de Ceribate
                                         <span class="text-danger">*</span></label>
-                                    <input type="file" name="boy_certificate3" class="form-control">
+                                    <input accept=".png,.jpg,.pdf" type="file" name="boy_certificate3" class="form-control">
                                     @error('boy_certificate3')
                                     <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -287,7 +287,7 @@
                                 <label class="form-label text-primary">UMUKOBWA </label>
                                 <div class="mb-3">
                                     <label for="girl_certificate1">Irangamuntu <span class="text-danger">*</span></label>
-                                    <input type="file" name="girl_certificate1" class="form-control">
+                                    <input accept=".png,.jpg,.pdf" type="file" name="girl_certificate1" class="form-control">
                                     @error('girl_certificate1')
                                     <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -295,7 +295,7 @@
                                 <div class="mb-3">
                                     <label for="girl_certificate2" class="form-label">Icyangobwa cya SIDA <span
                                             class="text-danger">*</span></label>
-                                    <input type="file" name="girl_certificate2" class="form-control">
+                                    <input accept=".png,.jpg,.pdf" type="file" name="girl_certificate2" class="form-control">
                                     @error('girl_certificate2')
                                     <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -303,7 +303,7 @@
                                 <div class="mb-3">
                                     <label for="girl_certificate3" class="form-label">Attestation de Ceribate
                                         <span class="text-danger">*</span></label>
-                                    <input type="file" class="form-control" name="girl_certificate3">
+                                    <input accept=".png,.jpg,.pdf" type="file" class="form-control" name="girl_certificate3">
                                     @error('girl_certificate3')
                                     <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -369,7 +369,7 @@
                             <label for="datepicker-autoclose" class="form-label">Proposed Date <span
                                     class="text-danger">*</span></label>
                             <div class="input-group">
-                                <input name="proposedDate" type="text" class="form-control" id="datepicker-autoclose"
+                                <input readonly name="proposedDate" type="text" class="form-control" id="datepicker-autoclose"
                                     value="{{ old('proposedDate') }}" autocomplete="off" placeholder="mm/dd/yyyy" />
 
                                 <span class="input-group-text">
@@ -422,7 +422,7 @@
     jQuery("#datepicker-autoclose").datepicker({
         autoclose: true,
         todayHighlight: true,
-        startDate: '0d',
+        startDate: '+6m',
     });
 </script>
 

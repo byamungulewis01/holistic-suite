@@ -12,9 +12,12 @@ class AssemblyProof extends Model
     use HasFactory;
     protected $fillable = [
         'member_id',
+        'document_no',
         'region_id',
         'parish_id',
         'local_church_id',
+        'reason',
+        'period',
         'status',
         'applyBy',
         'aproovedDate',

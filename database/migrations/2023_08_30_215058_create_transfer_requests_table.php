@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('transfer_requests', function (Blueprint $table) {
             $table->id();
             $table->foreignUuid('member_id')->constrained('members');
+            $table->string('document_no')->unique()->nullable();
             $table->foreignUuid('from')->constrained('offices');
+            $table->foreignUuid('parish_from')->constrained('offices');
             $table->foreignUuid('region_id')->constrained('offices');
             $table->foreignUuid('parish_id')->constrained('offices');
             $table->foreignUuid('local_church_id')->constrained('offices');

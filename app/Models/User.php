@@ -26,6 +26,7 @@ class User extends Authenticatable
         'photo',
         'password',
         'role',
+        'post',
         'username',
         'phone',
         'region_id',

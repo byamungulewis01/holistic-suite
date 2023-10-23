@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title', 'Gender & Age Report')
 @section('css')
-<link rel="stylesheet" href="{{ asset('dist/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}">
+@include('reports.datatableCss')
 @endsection
 @section('body')
 <div class="product-list">
@@ -10,7 +10,7 @@
             <div class="d-flex justify-content-between align-items-center mb-9">
                 <h4 class="mb-0">Member Reports</h4>
             </div>
-            <table class="table align-middle text-nowrap mb-0" style="width: 100%;">
+            <table id="datatable" class="table align-middle text-nowrap mb-0" style="width: 100%;">
                 <thead>
                     <tr>
                         <th style="width: 20px;">#</th>
@@ -78,13 +78,5 @@
 @endsection
 
 @section('script')
-
-<!-- ---------------------------------------------- -->
-<script src="{{ asset('dist/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
-<script src="{{ asset('dist/libs/datatables.net/js/dataTables.bootstrap5.min.js') }}"></script>
-<script>
-    $(function () {
-        $("#datatable").DataTable();
-    });
-</script>
+@include('reports.datatableJs')
 @endsection

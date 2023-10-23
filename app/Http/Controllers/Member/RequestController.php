@@ -35,6 +35,9 @@ class RequestController extends Controller
         if ($request->requestedBy == 2) {
             $request->validate(['reg_number' => 'required|min:9|numeric|exists:members,reg_no']);
         }
+        if (Member::where('reg_no', $request->reg_number)->first()->status != 1) {
+            return back()->with('warning', 'Unless Active Member Other can\'t Apply any service');
+        }
         $member = ($request->requestedBy == 1) ? auth()->guard('member')->user()->member_id : Member::where('reg_no', $request->reg_number)->first()->id;
         $church = ($request->requestedBy == 1) ? auth()->guard('member')->user()->member->local_church_id : Member::where('reg_no', $request->reg_number)->first()->local_church_id;
         $request->merge([
@@ -74,6 +77,9 @@ class RequestController extends Controller
         ]);
         if ($request->requestedBy == 2) {
             $request->validate(['reg_number' => 'required|min:9|numeric|exists:members,reg_no']);
+        }
+        if (Member::where('reg_no', $request->reg_number)->first()->status != 1) {
+            return back()->with('warning', 'Unless Active Member Other can\'t Apply any service');
         }
         $member = ($request->requestedBy == 1) ? auth()->guard('member')->user()->member_id : Member::where('reg_no', $request->reg_number)->first()->id;
         $church = ($request->requestedBy == 1) ? auth()->guard('member')->user()->member->local_church_id : Member::where('reg_no', $request->reg_number)->first()->local_church_id;
@@ -126,6 +132,9 @@ class RequestController extends Controller
         if ($request->requestedBy == 2) {
             $request->validate(['reg_number' => 'required|min:9|numeric|exists:members,reg_no']);
         }
+        if (Member::where('reg_no', $request->reg_number)->first()->status != 1) {
+            return back()->with('warning', 'Unless Active Member Other can\'t Apply any service');
+        }
         $member = ($request->requestedBy == 1) ? auth()->guard('member')->user()->member_id : Member::where('reg_no', $request->reg_number)->first()->id;
         $church = ($request->requestedBy == 1) ? auth()->guard('member')->user()->member->local_church_id : Member::where('reg_no', $request->reg_number)->first()->local_church_id;
         $request->merge([
@@ -169,6 +178,9 @@ class RequestController extends Controller
 
         if ($request->requestedBy == 2) {
             $request->validate(['reg_number' => 'required|min:9|numeric|exists:members,reg_no']);
+        }
+        if (Member::where('reg_no', $request->reg_number)->first()->status != 1) {
+            return back()->with('warning', 'Unless Active Member Other can\'t Apply any service');
         }
         $member = ($request->requestedBy == 1) ? auth()->guard('member')->user()->member_id : Member::where('reg_no', $request->reg_number)->first()->id;
         $church = ($request->requestedBy == 1) ? auth()->guard('member')->user()->member->local_church_id : Member::where('reg_no', $request->reg_number)->first()->local_church_id;
@@ -265,6 +277,9 @@ class RequestController extends Controller
         ]);
         if ($request->requestedBy == 2) {
             $request->validate(['reg_number' => 'required|min:9|numeric|exists:members,reg_no']);
+        }
+        if (Member::where('reg_no', $request->reg_number)->first()->status != 1) {
+            return back()->with('warning', 'Unless Active Member Other can\'t Apply any service');
         }
         $member = ($request->requestedBy == 1) ? auth()->guard('member')->user()->member_id : Member::where('reg_no', $request->reg_number)->first()->id;
         $church = ($request->requestedBy == 1) ? auth()->guard('member')->user()->member->local_church_id : Member::where('reg_no', $request->reg_number)->first()->local_church_id;

@@ -2,75 +2,18 @@
 
 namespace App\Http\Controllers\Member;
 
-use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Models\Member;
 use App\Models\Office;
-use App\Models\Recommand\AssemblyProof;
-use App\Models\Recommand\MemberProof;
-use App\Models\Recommandation;
-use App\Models\Recommand\TransferRequest;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Models\Recommand\MemberProof;
+use App\Models\Recommand\AssemblyProof;
+use App\Models\Recommand\TransferRequest;
 
 class RecommandationController extends Controller
 {
-    //moving
-    public function moving()
-    {
-        $regions = Office::where('type', 'region')->get();
-        $movings = Recommandation::where('member_id', auth()->guard('member')->user()->member_id)->get();
-        return view('frontend.recommandation.moving', compact('regions', 'movings'));
-    }
-
-    // storeMoving
-    public function storeMoving(Request $request)
-    {
-        $request->validate([
-            'region' => 'required',
-            'parish' => 'required',
-            'local_church' => 'required',
-            'reason' => 'nullable',
-        ]);
-        $request->merge([
-            'member_id' => auth()->guard('member')->user()->member_id,
-            'from' => auth()->guard('member')->user()->member->local_church_id,
-            'region_id' => Office::where('reg_number', $request->region)->first()->id,
-            'parish_id' => Office::where('reg_number', $request->parish)->first()->id,
-            'local_church_id' => Office::where('reg_number', $request->local_church)->first()->id,
-        ]);
-
-        $check = Recommandation::where('member_id', auth()->guard('member')->user()->member_id)->where('status', 1)->first();
-        if ($check) {
-            return back()->with('error', 'You have already applied for moving');
-        }
-
-        Recommandation::create($request->all());
-        return back()->with('success', 'Recommandation Applied successfully');
-    }
-
-    // updateMoving
-    public function updateMoving(Request $request, $id)
-    {
-        $request->validate([
-            'region' => 'required',
-            'parish' => 'required',
-            'local_church' => 'required',
-            'reason' => 'nullable',
-        ]);
-        $request->merge([
-            'region_id' => Office::where('reg_number', $request->region)->first()->id,
-            'parish_id' => Office::where('reg_number', $request->parish)->first()->id,
-            'local_church_id' => Office::where('reg_number', $request->local_church)->first()->id,
-        ]);
-        Recommandation::where('id', $id)->first()->update($request->except('_token', '_method'));
-        return back()->with('success', 'Modified successfully');
-    }
-    // destroyMoving
-    public function destroyMoving($id)
-    {
-        Recommandation::where('id', $id)->first()->delete();
-        return back()->with('success', 'Deleted successfully');
-    }
-
     // transfer
     public function transfer()
     {
@@ -92,10 +35,16 @@ class RecommandationController extends Controller
         ]);
         if ($request->requestedBy == 2) {
             $request->validate(['reg_number' => 'required|min:9|numeric|exists:members,reg_no']);
+            if (Member::where('reg_no', $request->reg_number)->first()->status != 1) {
+                return back()->with('warning', 'Unless Active Member Other can\'t Apply any service');
+            }
         }
         $member = ($request->requestedBy == 1) ? auth()->guard('member')->user()->member_id : Member::where('reg_no', $request->reg_number)->first()->id;
+        $from = ($request->requestedBy == 1) ? auth()->guard('member')->user()->member->local_church_id : Member::where('reg_no', $request->reg_number)->first()->local_church_id;
+        $parish_from = ($request->requestedBy == 1) ? auth()->guard('member')->user()->member->parish_id : Member::where('reg_no', $request->reg_number)->first()->parish_id;
         $request->merge([
-            'from' => auth()->guard('member')->user()->member->local_church_id,
+            'from' => $from,
+            'parish_from' => $parish_from,
             'region_id' => Office::where('reg_number', $request->region)->first()->id,
             'parish_id' => Office::where('reg_number', $request->parish)->first()->id,
             'local_church_id' => Office::where('reg_number', $request->local_church)->first()->id,
@@ -133,11 +82,16 @@ class RecommandationController extends Controller
             'region' => 'required',
             'parish' => 'required',
             'local_church' => 'required',
+            'reason' => 'required',
         ]);
         if ($request->requestedBy == 2) {
             $request->validate(['reg_number' => 'required|min:9|numeric|exists:members,reg_no']);
+            if (Member::where('reg_no', $request->reg_number)->first()->status != 1) {
+                return back()->with('warning', 'Unless Active Member Other can\'t Apply any service');
+            }
         }
         $member = ($request->requestedBy == 1) ? auth()->guard('member')->user()->member_id : Member::where('reg_no', $request->reg_number)->first()->id;
+
         $request->merge([
             'region_id' => Office::where('reg_number', $request->region)->first()->id,
             'parish_id' => Office::where('reg_number', $request->parish)->first()->id,
@@ -173,6 +127,9 @@ class RecommandationController extends Controller
         ]);
         if ($request->requestedBy == 2) {
             $request->validate(['reg_number' => 'required|min:9|numeric|exists:members,reg_no']);
+            if (Member::where('reg_no', $request->reg_number)->first()->status != 1) {
+                return back()->with('warning', 'Unless Active Member Other can\'t Apply any service');
+            }
         }
         $member = ($request->requestedBy == 1) ? auth()->guard('member')->user()->member_id : Member::where('reg_no', $request->reg_number)->first()->id;
         $request->merge([

@@ -48,6 +48,15 @@
                                             <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </div>
+                                        <div class="mb-3">
+                                            <label for="username" class="control-label">Username:</label>
+                                            <input type="text" name="username" value="{{ old('username') }}"
+                                                class="form-control" id="username" placeholder="Enter Username"
+                                                required autocomplete="off">
+                                            @error('username')
+                                            <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
                                         <div class="row mb-3">
                                             <div class="col-md-6">
                                                 <label for="email" class="control-label">Email:</label>
@@ -71,11 +80,14 @@
                                         <div class="row mb-3">
 
                                             <div class="col-md-6">
-                                                <label for="username" class="control-label">Username:</label>
-                                                <input type="text" name="username" value="{{ old('username') }}"
-                                                    class="form-control" id="username" placeholder="Enter Username"
-                                                    required autocomplete="off">
-                                                @error('username')
+                                                <label for="post" class="control-label">Post:</label>
+                                                <select name="post" class="form-select">
+                                                    <option {{ old('post')==1 ? 'selected' : '' }} value="1">{{
+                                                        __('message.user-type.0.name') }} </option>
+                                                    <option {{ old('post')==2 ? 'selected' : '' }} value="2">{{
+                                                        __('message.user-type.1.name') }}</option>
+                                                </select>
+                                                @error('post')
                                                 <span class="text-danger">{{ $message }}</span>
                                                 @enderror
                                             </div>
@@ -151,47 +163,11 @@
                         <th scope="col">Local Church</th>
                         <th scope="col">Parish</th>
                         <th scope="col">Region</th>
+                        <th scope="col">Post</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {{-- @foreach ($users as $item)
-                    <tr>
-                        <td><strong>{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</strong></td>
-                        <td>{{ $item->name }}</td>
-                        <td>{{ $item->phone }}</td>
-                        <td>{{ $item->email }}</td>
-                        <td>{{ $item->username }}</td>
-                        <td>{{ $item->localChurch->name }}</td>
-                        <td>{{ $item->parish->name }} </td>
-                        <td>{{ $item->region->name }}</td>
-                        <td>
-                            @php
-                            $region = \App\Models\Office::find($item->region_id)->reg_number;
-                            $parish = \App\Models\Office::find($item->parish_id)->reg_number;
-                            $parishName = \App\Models\Office::find($item->parish_id)->name;
-                            $localChurch = \App\Models\Office::find($item->local_church_id)->reg_number;
-                            $localChurchName = \App\Models\Office::find($item->local_church_id)->name;
-                            @endphp
-                            <a href="" data-bs-toggle="modal" data-bs-target="#editOffice"
-                                class="btn btn-sm btn-outline-primary editOffice">
-                                <span data-id="{{ $item->id }}" data-name="{{ $item->name }}"
-                                    data-phone="{{ $item->phone }}" data-email="{{ $item->email }}"
-                                    data-username="{{ $item->username }}" data-region="{{ $region }}"
-                                    data-parish="{{ $parish }}" data-parishname="{{ $parishName }}"
-                                    data-localchurch="{{ $localChurch }}" data-localchurchname="{{ $localChurchName }}">
-                                    Edit</span>
-                            </a>
-                            <form action="{{ route('users.localChurch.destroy', $item->id) }}" method="POST"
-                                class="d-inline">
-                                @csrf
-                                @method('DELETE')
-                                <button class="btn btn-sm btn-outline-danger"
-                                    onclick="return confirm('Are you sure?')">Delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                    @endforeach --}}
                 </tbody>
             </table>
         </div>
@@ -220,6 +196,14 @@
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
+                    <div class="mb-3">
+                        <label for="username" class="control-label">Username:</label>
+                        <input type="text" name="username" value="{{ old('username') }}" class="form-control"
+                            id="username" placeholder="Enter Username" required autocomplete="off">
+                        @error('username')
+                        <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label for="email" class="control-label">Email:</label>
@@ -241,11 +225,16 @@
                     </div>
                     <div class="row mb-3">
 
+
                         <div class="col-md-6">
-                            <label for="username" class="control-label">Username:</label>
-                            <input type="text" name="username" value="{{ old('username') }}" class="form-control"
-                                id="username" placeholder="Enter Username" required autocomplete="off">
-                            @error('username')
+                            <label for="post" class="control-label">Post:</label>
+                            <select name="post" class="form-select" id="post">
+                                <option {{ old('post')==1 ? 'selected' : '' }} value="1">{{
+                                    __('message.user-type.0.name') }} </option>
+                                <option {{ old('post')==2 ? 'selected' : '' }} value="2">{{
+                                    __('message.user-type.1.name') }}</option>
+                            </select>
+                            @error('post')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
@@ -367,6 +356,7 @@
         var parishName = $(this).find('span').data('parishname');
         var localchurch = $(this).find('span').data('localchurch');
         var localchurchname = $(this).find('span').data('localchurchname');
+        var post = $(this).find('span').data('post');
         // Populate the modal fields with the retrieved data
         $('#editOffice').find('#id').val(id);
         $('#editOffice').find('#name').val(name);
@@ -374,6 +364,7 @@
         $('#editOffice').find('#email').val(email);
         $('#editOffice').find('#username').val(username);
         $('#editOffice').find('#region').val(region);
+        $('#editOffice').find('#post').val(post);
 
         var parishSelect = $('#editOffice').find('#parish');
         var localchurchSelect = $('#editOffice').find('#local_church');
@@ -481,6 +472,9 @@
                             data: 'region_d'
                         }
                         , {
+                            data: 'post'
+                        }
+                        , {
                             data: ''
                         }
                     , ]
@@ -504,15 +498,28 @@
                                 return '<span>' + row.parish.name + '</span>';
                             }
                         }
+
                         , {
                             targets: 7
                             , render: function(data, type, row, meta) {
                                 return '<span>' + row.region.name + '</span>';
                             }
                         },
-
                         {
                             targets: 8
+                            , render: function(data, type, row, meta) {
+                                if (row.post == 1) {
+                                    return `{{ __('message.user-type.0.name') }}`;
+
+                                } else {
+                                    return `{{ __('message.user-type.1.name') }}`;
+
+                                }
+                            }
+                        },
+
+                        {
+                            targets: 9
                             , render: function(data, type, row, meta) {
                                 var route = "{{ route('users.localChurch.destroy', ['id' => ':id']) }}";
                                     route = route.replace(':id', row.id);
@@ -522,7 +529,7 @@
                                     data-phone="${row.phone}" data-email="${row.email}"
                                     data-username="${row.username}" data-region="${row.region.reg_number}"
                                     data-parish="${row.parish.reg_number}" data-parishname="${row.parish.name}"
-                                    data-localchurch="${row.local_church.reg_number}" data-localchurchname="${row.local_church.name}"
+                                    data-localchurch="${row.local_church.reg_number}" data-localchurchname="${row.local_church.name}" data-post="${row.post}"
                                     >
                                     Edit</span>
                             </a>
@@ -584,6 +591,9 @@
                             data: 'region_d'
                         }
                         , {
+                            data: 'post'
+                        }
+                        , {
                             data: ''
                         }
                     , ]
@@ -613,9 +623,20 @@
                                 return '<span>' + row.region.name + '</span>';
                             }
                         },
-
                         {
                             targets: 8
+                            , render: function(data, type, row, meta) {
+                                if (row.post == 1) {
+                                    return `{{ __('message.user-type.0.name') }}`;
+
+                                } else {
+                                    return `{{ __('message.user-type.1.name') }}`;
+
+                                }
+                            }
+                        },
+                        {
+                            targets: 9
                             , render: function(data, type, row, meta) {
                                 var route = "{{ route('users.localChurch.destroy', ['id' => ':id']) }}";
                                     route = route.replace(':id', row.id);
@@ -625,7 +646,7 @@
                                     data-phone="${row.phone}" data-email="${row.email}"
                                     data-username="${row.username}" data-region="${row.region.reg_number}"
                                     data-parish="${row.parish.reg_number}" data-parishname="${row.parish.name}"
-                                    data-localchurch="${row.local_church.reg_number}" data-localchurchname="${row.local_church.name}"
+                                    data-localchurch="${row.local_church.reg_number}" data-localchurchname="${row.local_church.name}" data-post="${row.post}"
                                     >
                                     Edit</span>
                             </a>

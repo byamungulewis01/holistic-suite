@@ -26,6 +26,8 @@ return new class extends Migration
             $table->integer('local_church_number')->nullable();
             $table->foreignUuid('user_id')->constrained('users')->cascadeOnDelete();
             $table->bigInteger('wedding_price')->nullable();
+            $table->string('phone')->unique()->nullable();
+            $table->string('email')->unique()->nullable();
             $table->timestamps();
         });
     }

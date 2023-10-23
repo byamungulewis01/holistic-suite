@@ -37,45 +37,35 @@
 <li class="sidebar-item">
     <a class="sidebar-link has-arrow" href="#users" aria-expanded="false">
         <span class="d-flex">
-            <i class="ti ti-settings"></i>
+            <i class="ti ti-users"></i>
         </span>
         <span class="hide-menu">Users</span>
     </a>
     <ul aria-expanded="false" class="collapse first-level">
         <li class="sidebar-item">
-            <a class="sidebar-link has-arrow" href="#employee" aria-expanded="false">
+            <a class="sidebar-link" href="{{ route('region.regionUser.index') }}">
                 <div class="round-16 d-flex align-items-center justify-content-center">
                     <i class="ti ti-circle"></i>
                 </div>
-                <span class="hide-menu">Employees</span>
+                <span class="hide-menu">Region</span>
             </a>
-            <ul aria-expanded="false" class="collapse two-level">
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('region.regionUser.index') }}">
-                        <div class="round-16 d-flex align-items-center justify-content-center">
-                            <i class="ti ti-circle"></i>
-                        </div>
-                        <span class="hide-menu">Region</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('region.parishUser.index') }}">
-                        <div class="round-16 d-flex align-items-center justify-content-center">
-                            <i class="ti ti-circle"></i>
-                        </div>
-                        <span class="hide-menu">Parish</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="{{ route('region.localChurchUser.index') }}">
-                        <div class="round-16 d-flex align-items-center justify-content-center">
-                            <i class="ti ti-circle"></i>
-                        </div>
-                        <span class="hide-menu">Local Church</span>
-                    </a>
+        </li>
+        <li class="sidebar-item">
+            <a class="sidebar-link" href="{{ route('region.parishUser.index') }}">
+                <div class="round-16 d-flex align-items-center justify-content-center">
+                    <i class="ti ti-circle"></i>
+                </div>
+                <span class="hide-menu">Parish</span>
+            </a>
+        </li>
+        <li class="sidebar-item">
+            <a class="sidebar-link" href="{{ route('region.localChurchUser.index') }}">
+                <div class="round-16 d-flex align-items-center justify-content-center">
+                    <i class="ti ti-circle"></i>
+                </div>
+                <span class="hide-menu">Local Church</span>
+            </a>
 
-                </li>
-            </ul>
         </li>
     </ul>
 </li>

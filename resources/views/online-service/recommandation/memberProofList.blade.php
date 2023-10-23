@@ -50,8 +50,8 @@
                                 class="btn btn-sm btn-danger" title="Delete"><i class="ti ti-letter-x"></i></button>
 
                             @elseif($item->status == 2)
-                            <a href="" data-bs-toggle="modal"
-                                data-bs-target="#approveComment{{ $item->id }}">Comment</a>
+                            <a href="{{ route('localChurch.certificate.memberProofCert',encrypt($item->id)) }}" class="btn btn-sm btn-success" target="_blank" title="Download"><i class="ti ti-download"></i></a>
+
                             <div class="modal fade" id="approveComment{{ $item->id }}" tabindex="-1"
                                 aria-labelledby="vertical-center-modal" aria-hidden="true">
                                 <div class="modal-dialog modal-md">

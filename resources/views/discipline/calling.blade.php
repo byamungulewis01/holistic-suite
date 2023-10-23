@@ -30,7 +30,7 @@
                                         <input type="search" class="form-control fs-3" autocomplete="off"
                                             placeholder="Search here" id="searchInput" />
                                     </div>
-                                    <form action="{{ route('localChurch.discipline.store') }}" method="post">
+                                    <form action="{{ route('localChurch.discipline.storeCalling') }}" method="post">
                                         @csrf
                                         <div class="message-body" data-simplebar="">
                                             <div id="message" class="text-center mb-3" role="alert">
@@ -46,32 +46,39 @@
                                                 <input type="text" name="name" class="form-control" disabled
                                                     id="name" />
                                                 <input type="hidden" name="member_id" class="form-control" />
+                                                <input type="hidden" name="category_id" class="form-control" />
                                             </div>
                                             <div class="row mb-3">
-
                                                 <div class="col-md-6">
                                                     <label for="name" class="control-label mb-2">Post:</label>
-                                                    <select name="post" class="form-select" id="post" required>
-                                                        <option disabled selected value="">Select Post</option>
-                                                        @foreach(__('message.leadersPost') as $i)
-                                                        <option {{ old('post')==$i['id'] ? 'selected' : '' }}
-                                                            value="{{ $i['id'] }}">
-                                                            {{ $i['name'] }}
+                                                    <select name="category" disabled class="form-select" id="category" required>
+                                                        @foreach(__('message.callings') as $i)
+                                                        <option value="{{ $i['id'] }}">{{ $i['name'] }}
                                                         </option>
                                                         @endforeach
                                                     </select>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <label for="className" class="control-label mb-2">Punish Duration</label>
+                                                    <label for="className" class="control-label mb-2">Punish
+                                                        Duration</label>
                                                     <div class="input-group">
-                                                        <input name="expireDate" type="week" class="form-control" autocomplete="off"
-                                                            required value="{{ old('expireDate') }}" placeholder="mm/dd/yyyy" />
+                                                        <input name="expireDate" type="text" class="form-control"
+                                                            autocomplete="off" required readonly id="datepicker-autoclose"
+                                                            value="{{ old('expireDate') }}" placeholder="mm/dd/yyyy" />
+                                                        <span class="input-group-text">
+                                                            <i class="ti ti-calendar fs-5"></i>
+                                                        </span>
                                                     </div>
                                                 </div>
                                             </div>
-
-
-
+                                            <div class="mb-3">
+                                                <label for="message-text" class="control-label mb-2">Reason:</label>
+                                              <input autofocus autocomplete="off" class="form-control" name="reason" required placeholder="Reason">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="message-text" class="control-label mb-2">Description:</label>
+                                                <textarea name="description" autocomplete="off" rows="3" class="form-control"></textarea>
+                                            </div>
                                             <div class="mb-3 text-center">
                                                 <button type="submit" class="btn btn-primary">Submit</button>
                                             </div>
@@ -94,7 +101,7 @@
                         <th scope="col">Category</th>
                         <th scope="col">Reason</th>
                         <th scope="col">Expire Date</th>
-                        <th scope="col"></th>
+                        <th scope="col">Description</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -122,35 +129,7 @@
                             {{ $item->expireDate }}
                         </td>
                         <td>
-                            <a data-bs-toggle="modal" data-bs-target="#remove{{ $item->id }}"
-                                class="btn btn-sm btn-primary" href="#">Remove</a>
-
-                            <div class="modal fade" id="remove{{ $item->id }}" tabindex="-1"
-                                aria-labelledby="vertical-center-modal" style="display: none;" aria-hidden="true">
-                                <div class="modal-dialog modal-md">
-                                    <div class="modal-content modal-filled bg-light-danger">
-                                        <div class="modal-body p-4">
-                                            <form action="{{ route('localChurch.discipline.remove',$item->id) }}"
-                                                method="post">
-                                                @csrf
-                                                @method('PUT')
-                                                <div class="text-center text-danger">
-                                                    <i class="ti ti-hexagon-letter-x fs-7"></i>
-                                                    <h4 class="mt-2">Are you sure to do this?</h4>
-                                                    <p class="mt-3">
-                                                        You are About clear Member From Disciplinary List
-                                                    </p>
-                                                    <button class="btn btn-light my-2">
-                                                        Yes I'm sure
-                                                    </button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- /.modal-content -->
-
+                            <a href="">More</a>
                         </td>
                     </tr>
                     @endforeach
@@ -169,11 +148,12 @@
 <script src="{{ asset('dist/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
 <script>
     $(function () {
-        $("#datatable").DataTable({
-            scrollX: true,
-        });
+        $("#datatable").DataTable({scrollX: true,}); });
+    jQuery("#datepicker-autoclose").datepicker({
+        autoclose: true,
+        todayHighlight: true,
+        startDate: '0d',
     });
-
 </script>
 <script>
     $(document).ready(function () {
@@ -182,7 +162,7 @@
 
             if (searchTerm.length >= 3) {
                 $.ajax({
-                    url: "{{ route('localChurch.calling.search') }}",
+                    url: "{{ route('localChurch.discipline.search') }}",
                     method: 'GET',
                     data: {
                         searchTerm: searchTerm
@@ -196,7 +176,7 @@
                             $.each(response, function (index, member) {
                                 resultsList.append(
                                     `<li id="active" class="p-1 mb-1 bg-hover-light-black">
-                                        <a href="#" data-member-id="${member.id}" data-name="${member.name}" class="member-link">
+                                        <a href="#" data-member-id="${member.id}" data-name="${member.name}" data-category="${member.category}" class="member-link">
                                             <span class="fs-3 text-black fw-normal d-block">${member.name}</span>
                                             <span class="fs-3 text-muted d-block">/${member.reg_no}/${member.email}</span>
                                         </a>
@@ -223,10 +203,13 @@
             $('#searchInput').hide();
             var memberId = $(this).data('member-id');
             var name = $(this).data('name');
+            var category = $(this).data('category');
 
             // Display the member information in a div
             $("input[name=name]").val(name)
             $("input[name=member_id]").val(memberId)
+            $("select[name=category]").val(category)
+            $("input[name=category_id]").val(category)
             $('#memberInfoDiv').show();
         });
     });

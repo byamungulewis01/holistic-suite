@@ -45,7 +45,15 @@
                                             <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </div>
-
+                                        <div class="mb-3">
+                                            <label for="username" class="control-label">Username:</label>
+                                            <input type="text" name="username" value="{{ old('username') }}"
+                                                class="form-control" id="username" placeholder="Enter Username" required
+                                                autocomplete="off">
+                                            @error('username')
+                                            <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
                                         <div class="mb-3">
                                             <label for="email" class="control-label">Email:</label>
                                             <input type="email" name="email" value="{{ old('email') }}"
@@ -57,25 +65,30 @@
                                         </div>
 
                                         {{-- phone --}}
-                                        <div class="mb-3">
-                                            <label for="phone" class="control-label">Phone:</label>
-                                            <input type="text" minlength="10" maxlength="10" name="phone"
-                                                value="{{ old('phone') }}" class="form-control phone" id="phone"
-                                                placeholder="Enter Phone" required autocomplete="off">
-                                            @error('phone')
-                                            <span class="text-danger">{{ $message }}</span>
-                                            @enderror
+                                        <div class="row mb-3">
+                                            <div class="col-md-7">
+                                                <label for="phone" class="control-label">Phone:</label>
+                                                <input type="text" minlength="10" maxlength="10" name="phone"
+                                                    value="{{ old('phone') }}" class="form-control phone"
+                                                    placeholder="Enter Phone" required autocomplete="off">
+                                                @error('phone')
+                                                <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                            <div class="col-md-5">
+                                                <label for="post" class="control-label">Post:</label>
+                                                <select name="post" class="form-select">
+                                                    <option {{ old('post')==1 ? 'selected' : '' }} value="1">{{
+                                                        __('message.user-type.0.name') }} </option>
+                                                    <option {{ old('post')==2 ? 'selected' : '' }} value="2">{{
+                                                        __('message.user-type.1.name') }}</option>
+                                                </select>
+                                                @error('post')
+                                                <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
                                         </div>
 
-                                        <div class="mb-3">
-                                            <label for="username" class="control-label">Username:</label>
-                                            <input type="text" name="username" value="{{ old('username') }}"
-                                                class="form-control" id="username" placeholder="Enter Username" required
-                                                autocomplete="off">
-                                            @error('username')
-                                            <span class="text-danger">{{ $message }}</span>
-                                            @enderror
-                                        </div>
                                         {{-- region --}}
                                         <div class="row mb-3">
                                             <div class="col-md-6">
@@ -134,6 +147,7 @@
                         <th scope="col">Username</th>
                         <th scope="col">Region</th>
                         <th scope="col">Parish</th>
+                        <th scope="col">Post</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
@@ -168,6 +182,15 @@
                     </div>
 
                     <div class="mb-3">
+                        <label for="username" class="control-label">Username:</label>
+                        <input type="text" name="username" value="{{ old('username') }}" class="form-control"
+                            id="username" placeholder="Enter Username" required autocomplete="off">
+                        @error('username')
+                        <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
                         <label for="email" class="control-label">Email:</label>
                         <input type="email" name="email" value="{{ old('email') }}" class="form-control" id="email"
                             placeholder="Enter Email" required autocomplete="off">
@@ -177,22 +200,29 @@
                     </div>
 
                     {{-- phone --}}
-                    <div class="mb-3">
-                        <label for="phone" class="control-label">Phone:</label>
-                        <input type="text" minlength="10" maxlength="10" name="phone" value="{{ old('phone') }}"
-                            class="form-control phone" id="phone" placeholder="Enter Phone" required autocomplete="off">
-                        @error('phone')
-                        <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
+                    <div class="row mb-3">
 
-                    <div class="mb-3">
-                        <label for="username" class="control-label">Username:</label>
-                        <input type="text" name="username" value="{{ old('username') }}" class="form-control"
-                            id="username" placeholder="Enter Username" required autocomplete="off">
-                        @error('username')
-                        <span class="text-danger">{{ $message }}</span>
-                        @enderror
+                        <div class="col-md-7">
+                            <label for="phone" class="control-label">Phone:</label>
+                            <input type="text" minlength="10" maxlength="10" name="phone" value="{{ old('phone') }}"
+                                class="form-control phone" id="phone" placeholder="Enter Phone" required
+                                autocomplete="off">
+                            @error('phone')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="col-md-5">
+                            <label for="post" class="control-label">Post:</label>
+                            <select name="post" class="form-select" id="post">
+                                <option {{ old('post')==1 ? 'selected' : '' }} value="1">{{
+                                    __('message.user-type.0.name') }} </option>
+                                <option {{ old('post')==2 ? 'selected' : '' }} value="2">{{
+                                    __('message.user-type.1.name') }}</option>
+                            </select>
+                            @error('post')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-6">
@@ -269,6 +299,7 @@
         var region = $(this).find('span').data('region');
         var parish = $(this).find('span').data('parish');
         var parishName = $(this).find('span').data('parishname');
+        var post = $(this).find('span').data('post');
         // Populate the modal fields with the retrieved data
         $('#editOffice').find('#id').val(id);
         $('#editOffice').find('#name').val(name);
@@ -276,6 +307,7 @@
         $('#editOffice').find('#email').val(email);
         $('#editOffice').find('#username').val(username);
         $('#editOffice').find('#region').val(region);
+        $('#editOffice').find('#post').val(post);
 
         var parishSelect = $('#editOffice').find('#parish');
         parishSelect.empty();
@@ -328,6 +360,9 @@
                             data: 'parish_id'
                         }
                         , {
+                            data: 'post'
+                        }
+                        , {
                             data: ''
                         }
                     , ]
@@ -351,14 +386,25 @@
                                 return '<span>' + row.parish.name + '</span>';
                             }
                         },
-
                         {
                             targets: 7
+                            , render: function(data, type, row, meta) {
+                                if (row.post == 1) {
+                                    return `{{ __('message.user-type.0.name') }}`;
+
+                                } else {
+                                    return `{{ __('message.user-type.1.name') }}`;
+
+                                }
+                            }
+                        },
+                        {
+                            targets: 8
                             , render: function(data, type, row, meta) {
                                 var route = "{{ route('users.parish.destroy', ['id' => ':id']) }}";
                                     route = route.replace(':id', row.id);
                                 return `<a href="" data-bs-toggle="modal" data-bs-target="#editOffice" class="btn btn-sm btn-outline-primary editOffice">
-                            <span data-id="${row.id}" data-name="${row.name}" data-phone="${row.phone}" data-email="${row.email}" data-username="${row.username}" data-region="${row.region.reg_number}" data-parish="${row.parish.reg_number}" data-parishname="${row.parish.name}">
+                            <span data-id="${row.id}" data-name="${row.name}" data-phone="${row.phone}" data-email="${row.email}" data-username="${row.username}" data-region="${row.region.reg_number}" data-parish="${row.parish.reg_number}" data-parishname="${row.parish.name}" data-post="${row.post}">
                                 Edit</span>
                         </a>
                         <form action="${route}" method="POST" class="d-inline">
@@ -435,6 +481,9 @@
                             data: 'parish_id'
                         }
                         , {
+                            data: 'post'
+                        }
+                        , {
                             data: ''
                         }
                     , ]
@@ -458,14 +507,26 @@
                                 return '<span>' + row.parish.name + '</span>';
                             }
                         },
-
                         {
                             targets: 7
+                            , render: function(data, type, row, meta) {
+                                if (row.post == 1) {
+                                    return `{{ __('message.user-type.0.name') }}`;
+
+                                } else {
+                                    return `{{ __('message.user-type.1.name') }}`;
+
+                                }
+                            }
+                        },
+
+                        {
+                            targets: 8
                             , render: function(data, type, row, meta) {
                                 var route = "{{ route('users.parish.destroy', ['id' => ':id']) }}";
                                     route = route.replace(':id', row.id);
                                 return `<a href="" data-bs-toggle="modal" data-bs-target="#editOffice" class="btn btn-sm btn-outline-primary editOffice">
-                            <span data-id="${row.id}" data-name="${row.name}" data-phone="${row.phone}" data-email="${row.email}" data-username="${row.username}" data-region="${row.region.reg_number}" data-parish="${row.parish.reg_number}" data-parishname="${row.parish.name}">
+                            <span data-id="${row.id}" data-name="${row.name}" data-phone="${row.phone}" data-email="${row.email}" data-username="${row.username}" data-region="${row.region.reg_number}" data-parish="${row.parish.reg_number}" data-parishname="${row.parish.name}" data-post="${row.post}">
                                 Edit</span>
                         </a>
                         <form action="${route}" method="POST" class="d-inline">

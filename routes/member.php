@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\Member\AuthenticationController;
 use App\Http\Controllers\Member\HomeController;
 use App\Http\Controllers\Member\MemberStepController;
@@ -39,8 +40,6 @@ Route::group(['middleware' => 'guest'], function () {
         Route::put('/change-personal-details', 'changePersonalDetails')->name('changePersonalDetails');
     });
 
-
-
     Route::controller(MemberStepController::class)->name('memberStep.')->prefix('memberStep')->group(function () {
         Route::get('/child-prays', 'childrenPrays')->name('childrenPrays');
         Route::get('/child-prays-list', 'childrenPraysList')->name('childrenPraysList');
@@ -68,28 +67,31 @@ Route::group(['middleware' => 'guest'], function () {
         Route::delete('/wedding-project/{id}', 'destroyWeddingProject')->name('destroyWeddingProject');
     });
     Route::controller(RecommandationController::class)->name('recommandation.')->prefix('recommandation')->group(function () {
-        Route::get('/moving', 'moving')->name('moving');
-        Route::post('/moving', 'storeMoving')->name('storeMoving');
-        Route::put('/moving/{id}', 'updateMoving')->name('updateMoving');
-        Route::delete('/moving/{id}', 'destroyMoving')->name('destroyMoving');
-
         // transfer
         Route::get('/transfer', 'transfer')->name('transfer');
         Route::get('/transferList', 'transferList')->name('transferList');
         Route::post('/transfer', 'storeTransfer')->name('storeTransfer');
         Route::delete('/transfer/{id}', 'destroyTransfer')->name('destroyTransfer');
+        Route::get('/transferCert/{id}', 'transferCert')->name('transferCert');
 
         Route::get('/assembly-proof', 'assemblyProof')->name('assemblyProof');
         Route::get('/assembly-proof-list', 'assemblyProofList')->name('assemblyProofList');
         Route::post('/assembly-proof', 'storeAssemblyProof')->name('storeAssemblyProof');
         Route::delete('/assembly-proof', 'destroyAssemblyProof')->name('destroyAssemblyProof');
+        Route::get('/assembly-proof/{id}', 'assemblyProofCert')->name('assemblyProofCert');
 
 
         Route::get('/member-proof', 'memberProof')->name('memberProof');
         Route::get('/member-proof-list', 'memberProofList')->name('memberProofList');
         Route::post('/member-proof', 'storeMemberProof')->name('storeMemberProof');
         Route::delete('/member-proof', 'destroyMemberProof')->name('destroyMemberProof');
+        Route::get('/member-proof/{id}', 'memberProofCert')->name('memberProofCert');
 
+    });
+    Route::controller(CertificateController::class)->name('certificate.')->prefix('certificate')->group(function () {
+        Route::get('/transferCert/{id}', 'transferCert')->name('transferCert');
+        Route::get('/assembly-proof/{id}', 'assemblyProofCert')->name('assemblyProofCert');
+        Route::get('/member-proof/{id}', 'memberProofCert')->name('memberProofCert');
     });
     Route::controller(RequestController::class)->name('request.')->prefix('request')->group(function () {
         Route::get('/suggestion', 'suggestion')->name('suggestion');

@@ -73,6 +73,9 @@ class MemberStepController extends Controller
             'deathCourse' => 'required',
         ]);
         $member = Member::where('reg_no', $request->reg_number)->first();
+        if ($member->status != 1) {
+            return back()->with('warning', 'Unless Active Member Other can\'t Apply any service');
+        }
         $request->merge([
             'member_id' => $member->id,
             'applyBy' => auth()->guard('member')->user()->id,
@@ -112,6 +115,10 @@ class MemberStepController extends Controller
                 'local_church_id' => auth()->guard('member')->user()->member->local_church_id,
             ]);
         } else {
+            if (Member::where('reg_no', $request->reg_number)->first()->status != 1) {
+                return back()->with('warning', 'Unless Active Member Other can\'t Apply any service');
+            }
+
             $request->validate(['reg_number' => 'required|min:9|numeric|exists:members,reg_no']);
             HolyCommunion::create([
                 'member_id' => Member::where('reg_no', $request->reg_number)->first()->id,
@@ -182,12 +189,12 @@ class MemberStepController extends Controller
     public function storeWeddingProject(Request $request)
     {
         $request->validate([
-            'boy_certificate1' => 'required',
-            'boy_certificate2' => 'required',
-            'boy_certificate3' => 'required',
-            'girl_certificate1' => 'required',
-            'girl_certificate2' => 'required',
-            'girl_certificate3' => 'required',
+            'boy_certificate1' => 'required|mimes:png,jpg,pdf|max:2048',
+            'boy_certificate2' => 'required|mimes:png,jpg,pdf|max:2048',
+            'boy_certificate3' => 'required|mimes:png,jpg,pdf|max:2048',
+            'girl_certificate1' => 'required|mimes:png,jpg,pdf|max:2048',
+            'girl_certificate2' => 'required|mimes:png,jpg,pdf|max:2048',
+            'girl_certificate3' => 'required|mimes:png,jpg,pdf|max:2048',
             'region' => 'required',
             'parish' => 'required',
             'local_church' => 'required',
@@ -246,6 +253,12 @@ class MemberStepController extends Controller
                 'girl_mother_name' => 'required',
             ]);
 
+            $boy_status = Member::where('reg_no', $request->boyReg_no)->first()->status;
+            $girl_status = Member::where('reg_no', $request->girlReg_no)->first()->status;
+            if ($boy_status != 1 && $girl_status != 1) {
+                return back()->with('error', 'Unless Active Member will be registered');
+            }
+
             $request->merge([
                 'churchMember' => 'both',
                 'boy_member_id' => Member::where('reg_no', $request->boyReg_no)->first()->id,
@@ -262,13 +275,17 @@ class MemberStepController extends Controller
                 'fatherName' => 'required',
                 'motherName' => 'required',
                 'religion' => 'required',
-                'certificate' => 'required',
+                'certificate' => 'required|mimes:png,jpg,pdf|max:2048',
             ]);
 
             if ($request->hasFile('certificate')) {
                 $certificate = $request->file('certificate');
                 $certName = time() . '.' . $certificate->getClientOriginalExtension();
                 $certificate->move(public_path('documents/certificates'), $certName);
+            }
+            $member_status = Member::where('reg_no', $request->reg_number)->first()->status;
+            if ($member_status != 1) {
+                return back()->with('error', 'Unless Active Member will be registered');
             }
             if ($request->whoIsMember == 'umusore') {
                 $request->merge([

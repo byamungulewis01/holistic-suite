@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title', 'Saving Type')
 @section('css')
-<link rel="stylesheet" href="{{ asset('dist/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}">
+@include('reports.datatableCss')
 @endsection
 @section('body')
 @php
@@ -39,15 +39,6 @@ $attr = __('message.attribute');
     </div>
 </div>
 @endsection
-
 @section('script')
-
-<!-- ---------------------------------------------- -->
-<script src="{{ asset('dist/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
-<script src="{{ asset('dist/libs/datatables.net/js/dataTables.bootstrap5.min.js') }}"></script>
-<script>
-    $(function () {
-        $("#datatable").DataTable();
-    });
-</script>
+@include('reports.datatableJs')
 @endsection

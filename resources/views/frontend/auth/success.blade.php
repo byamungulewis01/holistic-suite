@@ -11,7 +11,4 @@
       <a href="{{ route('member.login') }}" class="btn btn-light-primary text-primary w-100 py-8">Back to Login</a>
 </div>
 {{-- new page --}}
-
-
-
 @endsection

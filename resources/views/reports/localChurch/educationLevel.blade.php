@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title', 'Education Level')
 @section('css')
-<link rel="stylesheet" href="{{ asset('dist/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}">
+@include('reports.datatableCss')
 @endsection
 @section('body')
 @php
@@ -13,7 +13,7 @@ $attr = __('message.attribute');
             <div class="d-flex justify-content-between align-items-center mb-9">
                 <h4 class="mb-0">Education Reports</h4>
             </div>
-            <table class="table align-middle text-nowrap mb-0" style="width: 100%;">
+            <table id="datatable" class="table align-middle text-nowrap mb-0" style="width: 100%;">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -43,12 +43,5 @@ $attr = __('message.attribute');
 
 @section('script')
 
-<!-- ---------------------------------------------- -->
-<script src="{{ asset('dist/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
-<script src="{{ asset('dist/libs/datatables.net/js/dataTables.bootstrap5.min.js') }}"></script>
-<script>
-    $(function () {
-        $("#datatable").DataTable();
-    });
-</script>
+@include('reports.datatableJs')
 @endsection

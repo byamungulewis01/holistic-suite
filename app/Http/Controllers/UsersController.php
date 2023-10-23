@@ -22,12 +22,24 @@ class UsersController extends Controller
             'email' => 'required|unique:users',
             'phone' => 'required|unique:users|numeric|digits:10',
             'username' => 'required|unique:users',
+            'post' => 'required',
         ]);
+
         // merge password , role
         $request->merge([
             'password' => bcrypt('12345678'),
-            'role' => 'headquarter',
-        ]);
+            'role' => 'headquarter']);
+
+        $user = User::where('role', 'headquarter')->where('post', 1)->first();
+        if ($request->post == 1) {
+            if ($user) {
+                return back()->with('warning', 'Header Paster Arleady existy');
+            }
+        } else {
+            if (!$user) {
+                return back()->with('warning', 'Must First Add Head Paster');
+            }
+        }
         User::create($request->all());
         return back()->with('success', 'User created successfully');
     }
@@ -40,7 +52,20 @@ class UsersController extends Controller
             'email' => 'required|unique:users,email,' . $id,
             'phone' => 'required|unique:users,phone,' . $id,
             'username' => 'required|unique:users,username,' . $id,
+            'post' => 'required',
         ]);
+
+        $header = User::where('role', 'headquarter')->where('post', 1)->whereNot('id', $id)->first();
+        if ($request->post == 1) {
+            if ($header) {
+                return back()->with('warning', 'Header Paster Arleady existy');
+            }
+        } else {
+            if (!$header) {
+                return back()->with('warning', 'Must First Add Head Paster');
+            }
+        }
+
         $user = User::findOrFail($id);
         $user->update($request->all());
         return back()->with('success', 'User updated successfully');
@@ -56,7 +81,7 @@ class UsersController extends Controller
     // regionUsers
     public function regionUsers()
     {
-        $users = User::where('role', 'region')->get();
+        $users = User::where('role', 'region')->orderBy('region_id')->get();
         $regions = Office::where('type', 'region')->get();
         return view('users.headquarter.region', compact('users', 'regions'));
     }
@@ -69,6 +94,7 @@ class UsersController extends Controller
             'phone' => 'required|unique:users|numeric|digits:10',
             'username' => 'required|unique:users',
             'region' => 'required',
+            'post' => 'required',
         ]);
         // merge password , role
         $request->merge([
@@ -76,6 +102,16 @@ class UsersController extends Controller
             'role' => 'region',
             'region_id' => $request->region,
         ]);
+        $user = User::where('role', 'region')->where('region_id', $request->region)->where('post', 1)->first();
+        if ($request->post == 1) {
+            if ($user) {
+                return back()->with('warning', 'Header Paster Arleady existy');
+            }
+        } else {
+            if (!$user) {
+                return back()->with('warning', 'Must First Add Head Paster');
+            }
+        }
         User::create($request->all());
         return back()->with('success', 'User created successfully');
     }
@@ -94,6 +130,16 @@ class UsersController extends Controller
         $request->merge([
             'region_id' => $request->region,
         ]);
+        $header = User::where('role', 'region')->where('post', 1)->where('region_id', $request->region)->whereNot('id', $id)->first();
+        if ($request->post == 1) {
+            if ($header) {
+                return back()->with('warning', 'Header Paster Arleady existy');
+            }
+        } else {
+            if (!$header) {
+                return back()->with('warning', 'Must First Add Head Paster');
+            }
+        }
         $user = User::findOrFail($id);
         $user->update($request->all());
         return back()->with('success', 'User updated successfully');
@@ -137,14 +183,29 @@ class UsersController extends Controller
             'username' => 'required|unique:users',
             'region' => 'required',
             'parish' => 'required',
+            'post' => 'required',
         ]);
+
+        $region_id = Office::where('reg_number', $request->region)->first()->id;
+        $parish_id = Office::where('reg_number', $request->parish)->first()->id;
         // merge password , role
         $request->merge([
             'password' => bcrypt('12345678'),
             'role' => 'parish',
-            'region_id' => Office::where('reg_number', $request->region)->first()->id,
-            'parish_id' => Office::where('reg_number', $request->parish)->first()->id,
+            'region_id' => $region_id,
+            'parish_id' => $parish_id,
         ]);
+        $user = User::where('role', 'parish')->where('parish_id', $parish_id)->where('post', 1)->first();
+        if ($request->post == 1) {
+            if ($user) {
+                return back()->with('warning', 'Header Paster Arleady existy');
+            }
+        } else {
+            if (!$user) {
+                return back()->with('warning', 'Must First Add Head Paster');
+            }
+        }
+
         User::create($request->all());
         return back()->with('success', 'User created successfully');
     }
@@ -159,12 +220,27 @@ class UsersController extends Controller
             'username' => 'required|unique:users,username,' . $id,
             'region' => 'required',
             'parish' => 'required',
+            'post' => 'required',
         ]);
         // merge
+
+        $region_id = Office::where('reg_number', $request->region)->first()->id;
+        $parish_id = Office::where('reg_number', $request->parish)->first()->id;
+
         $request->merge([
-            'region_id' => Office::where('reg_number', $request->region)->first()->id,
-            'parish_id' => Office::where('reg_number', $request->parish)->first()->id,
+            'region_id' => $region_id,
+            'parish_id' => $parish_id,
         ]);
+        $header = User::where('role', 'parish')->where('post', 1)->where('parish_id', $parish_id)->whereNot('id', $id)->first();
+        if ($request->post == 1) {
+            if ($header) {
+                return back()->with('warning', 'Header Paster Arleady existy');
+            }
+        } else {
+            if (!$header) {
+                return back()->with('warning', 'Must First Add Head Paster');
+            }
+        }
         $user = User::findOrFail($id);
         $user->update($request->all());
         return back()->with('success', 'User updated successfully');
@@ -207,15 +283,31 @@ class UsersController extends Controller
             'region' => 'required',
             'parish' => 'required',
             'local_church' => 'required',
+            'post' => 'required',
         ]);
         // merge password , role
+        $region_id = Office::where('reg_number', $request->region)->first()->id;
+        $parish_id = Office::where('reg_number', $request->parish)->first()->id;
+        $local_church_id = Office::where('reg_number', $request->local_church)->first()->id;
         $request->merge([
             'password' => bcrypt('12345678'),
             'role' => 'local church',
-            'region_id' => Office::where('reg_number', $request->region)->first()->id,
-            'parish_id' => Office::where('reg_number', $request->parish)->first()->id,
-            'local_church_id' => Office::where('reg_number', $request->local_church)->first()->id,
+            'region_id' => $region_id,
+            'parish_id' => $parish_id,
+            'local_church_id' => $local_church_id,
         ]);
+
+        $user = User::where('role', 'local church')->where('local_church_id', $local_church_id)->where('post', 1)->first();
+        if ($request->post == 1) {
+            if ($user) {
+                return back()->with('warning', 'Header Paster Arleady existy');
+            }
+        } else {
+            if (!$user) {
+                return back()->with('warning', 'Must First Add Head Paster');
+            }
+        }
+
         User::create($request->all());
         return back()->with('success', 'User created successfully');
     }
@@ -231,13 +323,25 @@ class UsersController extends Controller
             'region' => 'required',
             'parish' => 'required',
             'local_church' => 'required',
+            'post' => 'required',
         ]);
+        $local_church_id = Office::where('reg_number', $request->local_church)->first()->id;
         // merge
         $request->merge([
             'region_id' => Office::where('reg_number', $request->region)->first()->id,
             'parish_id' => Office::where('reg_number', $request->parish)->first()->id,
-            'local_church_id' => Office::where('reg_number', $request->local_church)->first()->id,
+            'local_church_id' => $local_church_id,
         ]);
+        $header = User::where('role', 'local church')->where('local_church_id', $local_church_id)->where('post', 1)->whereNot('id',$id)->first();
+        if ($request->post == 1) {
+            if ($header) {
+                return back()->with('warning', 'Header Paster Arleady existy');
+            }
+        } else {
+            if (!$header) {
+                return back()->with('warning', 'Must First Add Head Paster');
+            }
+        }
         $user = User::findOrFail($id);
         $user->update($request->all());
         return back()->with('success', 'User updated successfully');

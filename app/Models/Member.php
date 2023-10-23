@@ -76,6 +76,10 @@ class Member extends Model
     {
         return $this->belongsTo(Office::class);
     }
+    public function region()
+    {
+        return $this->belongsTo(Office::class);
+    }
     public function education()
     {
         return $this->belongsTo(Predefined::class);
